@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Календарь переработок</title>
+  <link rel="manifest" href="/manifest.json" />
+  <script>
+    (function() {
+      try {
+        if (localStorage.getItem('overtime_theme') === 'light') {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      } catch(e) {}
+    })();
+  </script>
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #334155 100%);
+      --card: #ffffff;
+      --primary: #6366f1;
+      --accent: #ef4444;
+      --text: #f8fafc;
+      --border: #374151;
+      --success: #22c55e;
+      --muted: #94a3b8;
+      --toggle-bg: linear-gradient(145deg, #818cf8, #4f46e5);
+      --toggle-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+      --title-shadow: 0 2px 4px rgba(0,0,0,0.3);
+
+      --cal-bg: rgba(255, 255, 255, 0.07);
+      --cal-border: rgba(255, 255, 255, 0.12);
+      --cal-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      --cal-month-name: #f1f5f9;
+      --cal-weekday: #94a3b8;
+      --cal-weekend: #fca5a5;
+      --cal-day: #e2e8f0;
+      --cal-day-hours: #818cf8;
+      --cal-day-hover: rgba(255, 255, 255, 0.07);
+      --cal-other-month: rgba(148, 163, 184, 0.35);
+      --cal-other-month-weekend: rgba(252, 165, 165, 0.25);
+      --cal-other-month-holiday: rgba(199, 148, 255, 0.25);
+      --cal-overtime-bg: rgba(34, 197, 94, 0.18);
+      --cal-overtime-hours: #4ade80;
+      --cal-overtime-hover: rgba(34, 197, 94, 0.28);
+      --cal-control-bg: rgba(255, 255, 255, 0.06);
+      --cal-control-text: #e2e8f0;
+      --cal-control-border: rgba(255, 255, 255, 0.1);
+      --cal-control-hover: rgba(255, 255, 255, 0.12);
+      --cal-holiday-bg: rgba(199, 148, 255, 0.22);
+      --cal-holiday-text: #d8b4fe;
+      --cal-holiday-hours: #c084fc;
+      --cal-holiday-hover: rgba(199, 148, 255, 0.35);
+
+      --cal-input-bg: #1e293b;
+      --cal-input-text: #f1f5f9;
+      --cal-input-placeholder: #475569;
+
+      --calc-bg: rgba(30, 41, 59, 0.7);
+      --calc-header-bg: rgba(15, 23, 42, 0.5);
+      --calc-header-text: #f1f5f9;
+      --calc-card-bg: rgba(255, 255, 255, 0.05);
+      --calc-border: rgba(255, 255, 255, 0.1);
+      --calc-text: #e2e8f0;
+      --calc-text-muted: #94a3b8;
+      --calc-text-strong: #f8fafc;
+      --calc-input-bg: #1e293b;
+      --calc-input-border: rgba(255, 255, 255, 0.15);
+      --calc-input-text: #f1f5f9;
+      --calc-input-placeholder: #475569;
+      --calc-acc-bg: rgba(99, 102, 241, 0.1);
+      --calc-acc-border: rgba(99, 102, 241, 0.2);
+      --calc-acc-bg-red: rgba(239, 68, 68, 0.1);
+      --calc-acc-border-red: rgba(239, 68, 68, 0.2);
+      --calc-badge-15-bg: rgba(99, 102, 241, 0.15);
+      --calc-badge-15-border: rgba(99, 102, 241, 0.3);
+      --calc-badge-20-bg: rgba(239, 68, 68, 0.15);
+      --calc-badge-20-border: rgba(239, 68, 68, 0.3);
+      --calc-clear-btn-bg: rgba(255, 255, 255, 0.06);
+      --calc-clear-btn-border: rgba(255, 255, 255, 0.12);
+      --calc-clear-btn-text: #94a3b8;
+      --calc-clear-btn-hover-bg: rgba(239, 68, 68, 0.15);
+      --calc-clear-btn-hover-text: #fca5a5;
+      --calc-clear-btn-hover-border: rgba(239, 68, 68, 0.35);
+      --calc-save-ok-bg: #22c55e;
+      --calc-save-ok-hover: #16a34a;
+      --calc-unit-color: #64748b;
+      --calc-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+      --ndfl-switch-off: rgba(255, 255, 255, 0.15);
+      --ndfl-net-color: #4ade80;
+    }
+
+    [data-theme="light"] {
+      --bg-gradient: linear-gradient(135deg, #c7d2fe 0%, #ddd6fe 40%, #e2e8f0 100%);
+      --text: #1e293b;
+      --title-shadow: none;
+
+      --cal-bg: rgba(255, 255, 255, 0.5);
+      --cal-border: rgba(255, 255, 255, 0.4);
+      --cal-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --cal-month-name: #1e293b;
+      --cal-weekday: #64748b;
+      --cal-weekend: #ef4444;
+      --cal-day: #475569;
+      --cal-day-hours: #6366f1;
+      --cal-day-hover: #eff6ff;
+      --cal-other-month: #94a3b8;
+      --cal-other-month-weekend: rgba(239, 68, 68, 0.3);
+      --cal-other-month-holiday: rgba(74, 45, 125, 0.4);
+      --cal-overtime-bg: #dcfce7;
+      --cal-overtime-hours: #16a34a;
+      --cal-overtime-hover: #bbf7d0;
+      --cal-control-bg: rgba(241, 245, 249, 0.6);
+      --cal-control-text: #334155;
+      --cal-control-border: #cbd5e1;
+      --cal-control-hover: #e2e8f0;
+      --cal-holiday-bg: #c794ff;
+      --cal-holiday-text: #4a2d7d;
+      --cal-holiday-hours: #5e3a96;
+      --cal-holiday-hover: #dfbaff;
+
+      --cal-input-bg: #ffffff;
+      --cal-input-text: #1e293b;
+      --cal-input-placeholder: #cbd5e1;
+
+      --calc-bg: rgba(255, 255, 255, 0.75);
+      --calc-header-bg: #f8fafc;
+      --calc-header-text: #1e293b;
+      --calc-card-bg: #f8fafc;
+      --calc-border: #e2e8f0;
+      --calc-text: #1e293b;
+      --calc-text-muted: #64748b;
+      --calc-text-strong: #1e293b;
+      --calc-input-bg: #ffffff;
+      --calc-input-border: #cbd5e1;
+      --calc-input-text: #1e293b;
+      --calc-input-placeholder: #cbd5e1;
+      --calc-acc-bg: rgba(99, 102, 241, 0.06);
+      --calc-acc-border: rgba(99, 102, 241, 0.15);
+      --calc-acc-bg-red: rgba(239, 68, 68, 0.06);
+      --calc-acc-border-red: rgba(239, 68, 68, 0.15);
+      --calc-badge-15-bg: rgba(99, 102, 241, 0.12);
+      --calc-badge-15-border: rgba(99, 102, 241, 0.25);
+      --calc-badge-20-bg: rgba(239, 68, 68, 0.12);
+      --calc-badge-20-border: rgba(239, 68, 68, 0.25);
+      --calc-clear-btn-bg: #f1f5f9;
+      --calc-clear-btn-border: #e2e8f0;
+      --calc-clear-btn-text: #64748b;
+      --calc-clear-btn-hover-bg: #fee2e2;
+      --calc-clear-btn-hover-text: #ef4444;
+      --calc-clear-btn-hover-border: rgba(239, 68, 68, 0.3);
+      --calc-save-ok-bg: #22c55e;
+      --calc-save-ok-hover: #16a34a;
+      --calc-unit-color: #64748b;
+      --calc-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+      --ndfl-switch-off: #cbd5e1;
+      --ndfl-net-color: #16a34a;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .container { max-width: 1000px; margin: 0 auto; }
+
+    .header-row {
+      position: relative;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    h1 {
+      text-align: left;
+      text-shadow: var(--title-shadow);
+      margin: 0;
+      font-size: 1.35rem;
+      padding-left: 4px;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.1);
+      color: var(--text);
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.2s, border-color 0.2s;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 10;
+      line-height: 1;
+      padding: 0;
+    }
+    .theme-toggle:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-50%) scale(1.08);
+    }
+    .theme-toggle:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+    [data-theme="light"] .theme-toggle {
+      border-color: rgba(30, 41, 59, 0.15);
+      background: rgba(255, 255, 255, 0.5);
+    }
+    [data-theme="light"] .theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .calendar-wrapper {
+      background: var(--cal-bg);
+      backdrop-filter: blur(16px) saturate(140%);
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      border: 1px solid var(--cal-border);
+      border-radius: 12px;
+      box-shadow: var(--cal-shadow);
+      padding: 20px;
+      margin-bottom: 24px;
+      color: var(--cal-day);
+      touch-action: pan-y;
+      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+    .month-year h2 { margin: 0; font-size: 1.25rem; color: var(--cal-month-name); }
+    .controls button {
+      padding: 6px 12px;
+      border: 1px solid var(--cal-control-border);
+      background: var(--cal-control-bg);
+      cursor: pointer;
+      border-radius: 6px;
+      user-select: none;
+      color: var(--cal-control-text);
+      transition: background 0.15s;
+    }
+    .controls button:hover { background: var(--cal-control-hover); }
+
+    .weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 8px; }
+    .weekday { text-align: center; font-weight: 600; font-size: 0.875rem; color: var(--cal-weekday); }
+    .weekday:nth-child(6), .weekday:nth-child(7) { color: var(--cal-weekend); }
+
+    .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .day-cell {
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      cursor: pointer;
+      user-select: none;
+      padding: 4px 2px;
+      transition: background 0.15s, color 0.15s;
+      color: var(--cal-day);
+      position: relative;
+    }
+    .day-number { font-weight: 500; font-size: 0.95rem; }
+    .day-hours { font-size: 0.72rem; color: var(--cal-day-hours); font-weight: 600; margin-top: 2px; white-space: nowrap; }
+
+    .cell-hours-input {
+      display: none;
+      position: absolute;
+      inset: 1px;
+      border: 2px solid var(--primary);
+      border-radius: 4px;
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: var(--cal-input-bg);
+      color: var(--cal-input-text);
+      box-sizing: border-box;
+      padding: 0;
+      z-index: 10;
+      outline: none;
+      -moz-appearance: textfield;
+    }
+    .cell-hours-input::-webkit-outer-spin-button,
+    .cell-hours-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .cell-hours-input::placeholder { color: var(--cal-input-placeholder); font-size: 0.7rem; font-weight: 400; }
+    .day-cell.editing .cell-hours-input { display: block; }
+
+    .day-cell.weekend { color: var(--cal-weekend); }
+    .day-cell.weekend .day-number { color: var(--cal-weekend); }
+    .day-cell.weekend .day-hours { color: var(--cal-weekend); }
+    .day-cell.other-month { color: var(--cal-other-month); cursor: default; }
+    .day-cell.other-month.weekend { color: var(--cal-other-month-weekend); }
+    .day-cell.other-month.holiday { color: var(--cal-other-month-holiday); }
+    .day-cell.today { background: var(--primary); color: white; }
+    .day-cell.today .day-number { font-weight: 700; }
+    .day-cell.today .day-hours { color: rgba(255,255,255,0.9); }
+    .day-cell.today.weekend { color: white; }
+    .day-cell.today.weekend .day-number { color: white; }
+    .day-cell.today.holiday { color: white; }
+    .day-cell.today.holiday .day-number { color: white; }
+    .day-cell:hover:not(.other-month) { background: var(--cal-day-hover); }
+    .day-cell.today:hover { background: #546de5; }
+    .day-cell.has-overtime { background: var(--cal-overtime-bg); }
+    .day-cell.has-overtime.today { background: var(--success); color: white; }
+    .day-cell.has-overtime:not(.today) .day-hours { color: var(--cal-overtime-hours); }
+    .day-cell.has-overtime.weekend:not(.today) .day-hours { color: var(--cal-overtime-hours); }
+    .day-cell.holiday { background: var(--cal-holiday-bg); color: var(--cal-holiday-text); }
+    .day-cell.holiday .day-number { color: var(--cal-holiday-text); }
+    .day-cell.holiday .day-hours { color: var(--cal-holiday-hours); }
+    .day-cell.holiday.weekend { background: var(--cal-holiday-bg); color: var(--cal-holiday-text); }
+    .day-cell.holiday.weekend .day-number { color: var(--cal-holiday-text); }
+    .day-cell.holiday.weekend .day-hours { color: var(--cal-holiday-hours); }
+    .day-cell.holiday.has-overtime { background: var(--cal-overtime-bg); }
+    .day-cell.holiday.has-overtime:not(.today) .day-hours { color: var(--cal-overtime-hours); }
+    .day-cell.holiday.today { background: var(--primary); color: white; }
+    .day-cell.holiday.today .day-number { color: white; }
+    .day-cell.holiday.today .day-hours { color: rgba(255,255,255,0.9); }
+    .day-cell.holiday.has-overtime.today { background: var(--success); color: white; }
+    .day-cell.holiday.has-overtime.today .day-number { color: white; }
+    .day-cell.holiday:hover:not(.other-month):not(.today) { background: var(--cal-holiday-hover); }
+    .day-cell.holiday.has-overtime:hover:not(.other-month):not(.today) { background: var(--cal-overtime-hover); }
+
+    .summary-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .summary-card {
+      border-radius: 10px;
+      padding: 8px 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      height: 48px;
+      box-sizing: border-box;
+      gap: 8px;
+      min-width: 0;
+    }
+    .summary-card .summary-label {
+      font-size: 0.78rem;
+      opacity: 0.9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0;
+    }
+    .summary-card .summary-value {
+      font-size: 1.05rem;
+      font-weight: 800;
+      white-space: nowrap;
+      min-width: 0;
+    }
+    .hours-card { background: rgba(34, 197, 94, 0.95); color: white; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .pay-card { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
+
+    .calc-section {
+      background: var(--calc-bg);
+      backdrop-filter: blur(12px) saturate(130%);
+      -webkit-backdrop-filter: blur(12px) saturate(130%);
+      border: 1px solid var(--calc-border);
+      border-radius: 12px;
+      box-shadow: var(--calc-shadow);
+      color: var(--calc-text);
+      margin-bottom: 24px;
+      overflow: hidden;
+      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+    }
+    .calc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      cursor: pointer;
+      user-select: none;
+      background: var(--calc-header-bg);
+      border-bottom: 1px solid var(--calc-border);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .calc-header h2 { margin: 0; font-size: 1rem; font-weight: 600; color: var(--calc-header-text); transition: color 0.3s ease; }
+    .toggle-btn {
+      background: var(--toggle-bg);
+      color: white;
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: var(--toggle-shadow);
+      flex-shrink: 0;
+    }
+    .toggle-btn:hover { transform: scale(1.05); box-shadow: 0 6px 16px rgba(79, 70, 229, 0.45); }
+    .calc-section.collapsed .toggle-btn { transform: rotate(180deg); }
+    .calc-content { padding: 12px 16px; transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease; max-height: 1400px; opacity: 1; }
+    .calc-section.collapsed .calc-content { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; overflow: hidden; }
+
+    .rate-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .rate-card {
+      background: var(--calc-card-bg);
+      border: 1px solid var(--calc-border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .rate-card-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; min-width: 0; }
+    .rate-badge { padding: 3px 10px; border-radius: 20px; font-weight: 700; font-size: 0.82rem; white-space: nowrap; flex-shrink: 0; transition: background 0.3s ease, border-color 0.3s ease; }
+    .badge-15 { background: var(--calc-badge-15-bg); color: var(--primary); border: 1px solid var(--calc-badge-15-border); }
+    .badge-20 { background: var(--calc-badge-20-bg); color: var(--accent); border: 1px solid var(--calc-badge-20-border); }
+    .rate-sum-inline { font-size: 0.78rem; color: var(--calc-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; transition: color 0.3s ease; }
+    .rate-sum-inline strong { color: var(--calc-text-strong); font-weight: 700; transition: color 0.3s ease; }
+
+    .rate-acc { display: flex; align-items: center; justify-content: space-between; gap: 6px; min-width: 0; }
+    .rate-acc-info { display: flex; align-items: center; gap: 6px; background: var(--calc-acc-bg); border: 1px solid var(--calc-acc-border); border-radius: 6px; padding: 5px 10px; flex: 1; min-width: 0; transition: background 0.3s ease, border-color 0.3s ease; }
+    .rate-acc-info-red { background: var(--calc-acc-bg-red); border: 1px solid var(--calc-acc-border-red); }
+    .rate-acc-label { font-size: 0.72rem; color: var(--calc-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; transition: color 0.3s ease; }
+    .rate-acc-value { font-size: 0.85rem; font-weight: 700; color: var(--primary); white-space: nowrap; flex-shrink: 0; }
+    .rate-acc-value-red { color: var(--accent); }
+
+    .btn-clear-acc {
+      background: var(--calc-clear-btn-bg);
+      border: 1px solid var(--calc-clear-btn-border);
+      color: var(--calc-clear-btn-text);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .btn-clear-acc:hover { background: var(--calc-clear-btn-hover-bg); color: var(--calc-clear-btn-hover-text); border-color: var(--calc-clear-btn-hover-border); }
+    .btn-clear-acc:active { transform: scale(0.96); }
+
+    .input-with-ok { display: flex; gap: 8px; }
+    .rate-input {
+      width: 100%;
+      padding: 7px 6px;
+      border: 2px solid var(--calc-input-border);
+      border-radius: 6px;
+      font-size: 0.88rem;
+      box-sizing: border-box;
+      text-align: center;
+      background: var(--calc-input-bg);
+      color: var(--calc-input-text);
+      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+    .rate-input:focus { outline: none; border-color: var(--primary); }
+    .rate-input::placeholder { color: var(--calc-input-placeholder); font-size: 0.8rem; }
+    .btn-ok {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn-ok:hover { background: #4f46e5; }
+    .btn-ok:active { transform: scale(0.98); }
+
+    .calc-grid-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 8px; }
+    .calc-grid-bottom { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 8px; }
+    .calc-item {
+      background: var(--calc-card-bg);
+      border: 1px solid var(--calc-border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      min-width: 0;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .calc-item .label { font-size: 0.7rem; color: var(--calc-text-muted); margin-bottom: 3px; display: block; transition: color 0.3s ease; }
+    .calc-item .value { font-size: 0.95rem; font-weight: 700; color: var(--calc-text-strong); transition: color 0.3s ease; }
+    .calc-item-editable { display: flex; flex-direction: column; gap: 4px; }
+    .calc-item-editable .label { font-size: 0.7rem; color: var(--calc-text-muted); display: block; }
+    .salary-input-row { display: flex; gap: 6px; align-items: center; }
+    .salary-input-wrap { position: relative; flex: 1; min-width: 0; }
+    .salary-input {
+      width: 100%;
+      height: 36px;
+      padding: 0 24px 0 6px;
+      border: 2px solid var(--calc-input-border);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      box-sizing: border-box;
+      text-align: center;
+      font-weight: 700;
+      color: var(--calc-input-text);
+      background: var(--calc-input-bg);
+      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+    .salary-input:focus { outline: none; border-color: var(--primary); }
+    .salary-input.saved { border-color: var(--success); }
+    .salary-unit {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--calc-unit-color);
+      pointer-events: none;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+    .btn-save-salary {
+      background: var(--calc-save-ok-bg);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      height: 36px;
+      padding: 0 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.15s, transform 0.1s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-save-salary:hover { background: var(--calc-save-ok-hover); }
+    .btn-save-salary:active { transform: scale(0.96); }
+
+    .ndfl-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: var(--calc-card-bg);
+      border: 1px solid var(--calc-border);
+      border-radius: 8px;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .ndfl-row-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--calc-text);
+      white-space: nowrap;
+    }
+    .ndfl-row-label .ndfl-hint {
+      font-size: 0.68rem;
+      font-weight: 400;
+      color: var(--calc-text-muted);
+      margin-left: 4px;
+    }
+    .ndfl-switch {
+      position: relative;
+      width: 42px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .ndfl-switch input { opacity: 0; width: 0; height: 0; }
+    .ndfl-slider {
+      position: absolute;
+      inset: 0;
+      background: var(--ndfl-switch-off);
+      border-radius: 24px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .ndfl-slider::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      left: 2px;
+      top: 2px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.2s ease;
+    }
+    .ndfl-switch input:checked + .ndfl-slider { background: var(--primary); }
+    .ndfl-switch input:checked + .ndfl-slider::before { transform: translateX(18px); }
+
+    .ndfl-results {
+      display: none;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .ndfl-results.visible { display: grid; }
+    .ndfl-result {
+      background: var(--calc-card-bg);
+      border: 1px solid var(--calc-border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      min-width: 0;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .ndfl-result .label { font-size: 0.68rem; color: var(--calc-text-muted); margin-bottom: 3px; display: block; transition: color 0.3s ease; }
+    .ndfl-result .value { font-size: 0.92rem; font-weight: 700; color: var(--calc-text-strong); transition: color 0.3s ease; }
+    .ndfl-result.gross .value { color: var(--accent); }
+    .ndfl-result.net .value { color: var(--ndfl-net-color); }
+    .ndfl-result.tax .value { color: var(--calc-text-muted); }
+
+    @media (max-width: 480px) {
+      .summary-card .summary-label { font-size: 0.68rem; }
+      .summary-card .summary-value { font-size: 0.92rem; }
+      .rate-badge { font-size: 0.72rem; padding: 2px 8px; }
+      .rate-sum-inline { font-size: 0.68rem; }
+      .rate-acc-label { font-size: 0.62rem; }
+      .rate-acc-value { font-size: 0.78rem; }
+      .btn-clear-acc { font-size: 0.65rem; padding: 4px 8px; }
+      .rate-input { font-size: 0.8rem; padding: 6px 4px; }
+      .rate-input::placeholder { font-size: 0.72rem; }
+      .btn-ok { font-size: 0.78rem; padding: 6px 10px; }
+      .calc-item .label { font-size: 0.62rem; }
+      .calc-item .value { font-size: 0.85rem; }
+      .calc-grid-top { grid-template-columns: 1fr 1fr; }
+      .calc-grid-bottom { grid-template-columns: 1fr 1fr; }
+      .salary-input { font-size: 0.78rem; height: 34px; padding: 0 22px 0 4px; }
+      .salary-unit { font-size: 0.78rem; right: 6px; }
+      .btn-save-salary { font-size: 0.72rem; height: 34px; padding: 0 10px; }
+      .theme-toggle { width: 38px; height: 38px; font-size: 1.05rem; }
+      h1 { font-size: 1.15rem; }
+      .cell-hours-input { font-size: 0.75rem; }
+      .cell-hours-input::placeholder { font-size: 0.6rem; }
+      .ndfl-row-label { font-size: 0.72rem; }
+      .ndfl-row-label .ndfl-hint { font-size: 0.6rem; }
+      .ndfl-results { grid-template-columns: 1fr; }
+      .ndfl-result .value { font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-row">
+      <h1>Календарь переработок</h1>
+      <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" aria-label="Сменить тему" title="Сменить тему">🌙</button>
+    </div>
+
+    <div class="calendar-wrapper" id="calendar-wrapper">
+      <div class="calendar-header">
+        <div class="month-year"><h2 id="month-year"></h2></div>
+        <div class="controls">
+          <button onclick="prevMonth()">←</button>
+          <button onclick="nextMonth()">→</button>
+        </div>
+      </div>
+      <div class="weekdays">
+        <div class="weekday">Пн</div>
+        <div class="weekday">Вт</div>
+        <div class="weekday">Ср</div>
+        <div class="weekday">Чт</div>
+        <div class="weekday">Пт</div>
+        <div class="weekday">Сб</div>
+        <div class="weekday">Вс</div>
+      </div>
+      <div class="days" id="calendar-grid"></div>
+    </div>
+
+    <div class="summary-bar">
+      <div class="summary-card hours-card">
+        <div class="summary-label">Итого часов за месяц</div>
+        <div class="summary-value" id="total-overtime">0.0 ч</div>
+      </div>
+      <div class="summary-card pay-card">
+        <div class="summary-label" id="pay-label">Итого к выплате</div>
+        <div class="summary-value" id="total-pay">0 ₽</div>
+      </div>
+    </div>
+
+    <div class="calc-section" id="calc-section">
+      <div class="calc-header" onclick="toggleCalc()">
+        <h2>Расчёт оплаты переработок</h2>
+        <button class="toggle-btn" type="button">▼</button>
+      </div>
+      <div class="calc-content">
+        <div class="rate-cards">
+          <div class="rate-card">
+            <div class="rate-card-top">
+              <span class="rate-badge badge-15">×1.5</span>
+              <span class="rate-sum-inline"><strong id="sum-15">0 ₽</strong></span>
+            </div>
+            <div class="rate-acc">
+              <div class="rate-acc-info">
+                <span class="rate-acc-label">Добавлено:</span>
+                <span class="rate-acc-value" id="acc-15">0 ч</span>
+              </div>
+              <button class="btn-clear-acc" onclick="clearAcc15()">Стереть</button>
+            </div>
+            <div class="input-with-ok">
+              <input type="number" class="rate-input" id="ot-15" placeholder="Добавить часы" min="0" step="0.5" value="" />
+              <button class="btn-ok" onclick="add15()">Ок</button>
+            </div>
+          </div>
+          <div class="rate-card">
+            <div class="rate-card-top">
+              <span class="rate-badge badge-20">×2</span>
+              <span class="rate-sum-inline"><strong id="sum-2">0 ₽</strong></span>
+            </div>
+            <div class="rate-acc">
+              <div class="rate-acc-info rate-acc-info-red">
+                <span class="rate-acc-label">Добавлено:</span>
+                <span class="rate-acc-value rate-acc-value-red" id="acc-2">0 ч</span>
+              </div>
+              <button class="btn-clear-acc" onclick="clearAcc2()">Стереть</button>
+            </div>
+            <div class="input-with-ok">
+              <input type="number" class="rate-input" id="ot-2" placeholder="Добавить часы" min="0" step="0.5" value="" />
+              <button class="btn-ok" onclick="add2()">Ок</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-grid-top">
+          <div class="calc-item calc-item-editable">
+            <span class="label">Оклад</span>
+            <div class="salary-input-row">
+              <div class="salary-input-wrap">
+                <input type="number" class="salary-input" id="salary-input" min="0" step="1000" value="56000" />
+                <span class="salary-unit">р.</span>
+              </div>
+              <button class="btn-save-salary" onclick="saveSalary()">Ок</button>
+            </div>
+          </div>
+          <div class="calc-item">
+            <span class="label">Стоимость часа</span>
+            <span class="value" id="hourly-rate">—</span>
+          </div>
+        </div>
+
+        <div class="calc-grid-bottom">
+          <div class="calc-item">
+            <span class="label">Будней в месяце</span>
+            <span class="value" id="workdays">—</span>
+          </div>
+          <div class="calc-item">
+            <span class="label">Часов в месяце</span>
+            <span class="value" id="month-hours">—</span>
+          </div>
+        </div>
+
+        <div class="ndfl-row">
+          <span class="ndfl-row-label">Учесть НДФЛ<span class="ndfl-hint">13%</span></span>
+          <label class="ndfl-switch">
+            <input type="checkbox" id="ndfl-toggle" onchange="toggleNdfl()" />
+            <span class="ndfl-slider"></span>
+          </label>
+        </div>
+        <div class="ndfl-results" id="ndfl-results">
+          <div class="ndfl-result gross">
+            <span class="label">Без вычета</span>
+            <span class="value" id="ndfl-gross">0 ₽</span>
+          </div>
+          <div class="ndfl-result tax">
+            <span class="label">НДФЛ 13%</span>
+            <span class="value" id="ndfl-tax">0 ₽</span>
+          </div>
+          <div class="ndfl-result net">
+            <span class="label">На руки</span>
+            <span class="value" id="ndfl-net">0 ₽</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var DEFAULT_SALARY = 56000;
+    var HOURS_PER_DAY = 8;
+    var NDFL_RATE = 0.13;
+    var STORAGE_KEY = 'overtime_data_v2';
+    var SALARY_KEY = 'overtime_salary';
+    var THEME_KEY = 'overtime_theme';
+    var NDFL_KEY = 'overtime_ndfl';
+
+    var HOLIDAYS = {
+      '1-1': true, '1-2': true, '1-3': true, '1-4': true,
+      '1-5': true, '1-6': true, '1-7': true, '1-8': true,
+      '2-23': true, '3-8': true, '5-1': true, '5-9': true,
+      '6-12': true, '11-4': true
+    };
+
+    function isHoliday(month, day) {
+      return HOLIDAYS[month + '-' + day] === true;
+    }
+
+    var storageAvailable = (function() {
+      try {
+        var test = '__test__';
+        localStorage.setItem(test, test);
+        localStorage.removeItem(test);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    })();
+
+    /* ===== Тема ===== */
+    function applyTheme(theme) {
+      var btn = document.getElementById('theme-toggle-btn');
+      if (theme === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        if (btn) btn.textContent = '☀️';
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        if (btn) btn.textContent = '🌙';
+      }
+    }
+    function toggleTheme() {
+      var current = document.documentElement.getAttribute('data-theme');
+      var newTheme = current === 'light' ? 'dark' : 'light';
+      applyTheme(newTheme);
+      if (storageAvailable) localStorage.setItem(THEME_KEY, newTheme);
+    }
+    (function() {
+      var savedTheme = 'dark';
+      if (storageAvailable) {
+        var t = localStorage.getItem(THEME_KEY);
+        if (t === 'light' || t === 'dark') savedTheme = t;
+      }
+      applyTheme(savedTheme);
+    })();
+
+    function pad2(num) { return num < 10 ? '0' + num : '' + num; }
+    function formatDateKey(date) {
+      return date.getFullYear() + '-' + pad2(date.getMonth() + 1) + '-' + pad2(date.getDate());
+    }
+
+    var SALARY = DEFAULT_SALARY;
+    if (storageAvailable) {
+      var savedSalary = localStorage.getItem(SALARY_KEY);
+      if (savedSalary) {
+        var parsedSalary = parseFloat(savedSalary);
+        if (!isNaN(parsedSalary) && parsedSalary > 0) SALARY = parsedSalary;
+      }
+    }
+
+    var overtimeData = {};
+    if (storageAvailable) {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          var parsedData = JSON.parse(raw);
+          if (parsedData && typeof parsedData === 'object') overtimeData = parsedData;
+        }
+      } catch (e) {}
+    }
+    function saveToStorage() {
+      if (!storageAvailable) return;
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(overtimeData)); } catch (e) {}
+    }
+
+    var currentDate = new Date();
+    if (storageAvailable) {
+      var savedMonth = localStorage.getItem('overtime_last_month');
+      if (savedMonth) {
+        var parts = savedMonth.split('-');
+        var sy = parseInt(parts[0], 10), sm = parseInt(parts[1], 10);
+        if (!isNaN(sy) && !isNaN(sm)) currentDate = new Date(sy, sm - 1, 1);
+      }
+    }
+
+    var accOt15 = 0;
+    var accOt2 = 0;
+
+    /* ===== НДФЛ ===== */
+    var ndflEnabled = false;
+    if (storageAvailable && localStorage.getItem(NDFL_KEY) === '1') ndflEnabled = true;
+    document.getElementById('ndfl-toggle').checked = ndflEnabled;
+    if (ndflEnabled) document.getElementById('ndfl-results').classList.add('visible');
+
+    function toggleNdfl() {
+      ndflEnabled = document.getElementById('ndfl-toggle').checked;
+      document.getElementById('ndfl-results').classList.toggle('visible', ndflEnabled);
+      if (storageAvailable) localStorage.setItem(NDFL_KEY, ndflEnabled ? '1' : '0');
+      calculatePay();
+    }
+
+    /* ===== Inline-редактирование ===== */
+    var editingCell = null;
+    var editingKey = null;
+
+    function startInlineEdit(dateKey, cellEl) {
+      if (editingCell && editingCell !== cellEl) saveInlineEdit();
+      if (editingCell === cellEl) return;
+      editingCell = cellEl;
+      editingKey = dateKey;
+      cellEl.classList.add('editing');
+      var input = cellEl.querySelector('.cell-hours-input');
+      var existing = overtimeData[dateKey];
+      input.value = (existing !== undefined && existing !== null) ? existing : '';
+      setTimeout(function() { input.focus(); input.select(); }, 30);
+    }
+
+    function saveInlineEdit() {
+      if (!editingCell || !editingKey) return;
+      var input = editingCell.querySelector('.cell-hours-input');
+      var val = parseFloat(input.value);
+      if (isNaN(val) || val <= 0) { delete overtimeData[editingKey]; }
+      else { overtimeData[editingKey] = val; }
+      saveToStorage();
+      var cell = editingCell, key = editingKey;
+      cell.classList.remove('editing');
+      var hrs = cell.querySelector('.day-hours');
+      var savedVal = overtimeData[key];
+      if (savedVal !== undefined && savedVal > 0) {
+        cell.classList.add('has-overtime');
+        if (!hrs) { hrs = document.createElement('span'); hrs.className = 'day-hours'; cell.appendChild(hrs); }
+        hrs.textContent = savedVal.toFixed(1) + ' ч';
+      } else {
+        cell.classList.remove('has-overtime');
+        if (hrs) hrs.remove();
+      }
+      editingCell = null; editingKey = null;
+      updateTotal();
+    }
+
+    function cancelInlineEdit() {
+      if (!editingCell) return;
+      editingCell.classList.remove('editing');
+      editingCell = null; editingKey = null;
+    }
+
+    function toggleCalc() {
+      var section = document.getElementById('calc-section');
+      section.classList.toggle('collapsed');
+      if (storageAvailable) localStorage.setItem('calc_collapsed', section.classList.contains('collapsed') ? '1' : '0');
+    }
+    if (storageAvailable && localStorage.getItem('calc_collapsed') === '1') {
+      document.getElementById('calc-section').classList.add('collapsed');
+    }
+
+    function countWeekdays(year, month) {
+      var lastDay = new Date(year, month + 1, 0).getDate();
+      var count = 0;
+      for (var d = 1; d <= lastDay; d++) {
+        var dow = new Date(year, month, d).getDay();
+        if (dow !== 0 && dow !== 6 && !isHoliday(month + 1, d)) count++;
+      }
+      return count;
+    }
+
+    function calculatePay() {
+      var year = currentDate.getFullYear();
+      var month = currentDate.getMonth();
+      var workdays = countWeekdays(year, month);
+      var monthHours = workdays * HOURS_PER_DAY;
+      var hourlyRate = monthHours > 0 ? SALARY / monthHours : 0;
+
+      var sum15 = accOt15 * hourlyRate * 1.5;
+      var sum2 = accOt2 * hourlyRate * 2;
+      var totalGross = sum15 + sum2;
+
+      document.getElementById('workdays').textContent = workdays + ' дн.';
+      document.getElementById('month-hours').textContent = monthHours + ' ч';
+      document.getElementById('hourly-rate').textContent = hourlyRate.toFixed(2) + ' ₽';
+      document.getElementById('sum-15').textContent = sum15.toFixed(2) + ' ₽';
+      document.getElementById('sum-2').textContent = sum2.toFixed(2) + ' ₽';
+      document.getElementById('acc-15').textContent = accOt15.toFixed(1) + ' ч';
+      document.getElementById('acc-2').textContent = accOt2.toFixed(1) + ' ч';
+
+      if (ndflEnabled) {
+        var ndflAmount = totalGross * NDFL_RATE;
+        var totalNet = totalGross - ndflAmount;
+        document.getElementById('ndfl-gross').textContent = totalGross.toFixed(2) + ' ₽';
+        document.getElementById('ndfl-tax').textContent = ndflAmount.toFixed(2) + ' ₽';
+        document.getElementById('ndfl-net').textContent = totalNet.toFixed(2) + ' ₽';
+        document.getElementById('total-pay').textContent = totalNet.toFixed(2) + ' ₽';
+        document.getElementById('pay-label').textContent = 'Итого на руки';
+      } else {
+        document.getElementById('total-pay').textContent = totalGross.toFixed(2) + ' ₽';
+        document.getElementById('pay-label').textContent = 'Итого к выплате';
+      }
+    }
+
+    function saveSalary() {
+      var input = document.getElementById('salary-input');
+      var val = parseFloat(input.value);
+      if (!isNaN(val) && val > 0) {
+        SALARY = val;
+        if (storageAvailable) localStorage.setItem(SALARY_KEY, String(SALARY));
+        input.classList.add('saved');
+        setTimeout(function() { input.classList.remove('saved'); }, 1200);
+        calculatePay();
+      } else {
+        input.value = SALARY;
+      }
+    }
+
+    function isSameDay(d1, d2) {
+      return d1.getDate() === d2.getDate() && d1.getMonth() === d2.getMonth() && d1.getFullYear() === d2.getFullYear();
+    }
+    function isWeekend(dow) { return dow === 0 || dow === 6; }
+
+    function renderCalendar(date) {
+      var year = date.getFullYear();
+      var month = date.getMonth();
+      var firstDay = new Date(year, month, 1);
+      var lastDay = new Date(year, month + 1, 0);
+
+      document.getElementById('month-year').textContent =
+        firstDay.toLocaleString('ru-RU', { month: 'long', year: 'numeric' });
+
+      var grid = document.getElementById('calendar-grid');
+      grid.innerHTML = '';
+
+      var prevOffset = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
+      for (var i = 0; i < prevOffset; i++) {
+        var cell = document.createElement('div');
+        cell.className = 'day-cell other-month';
+        var prevDate = new Date(year, month, 1 - prevOffset + i);
+        if (isWeekend(prevDate.getDay())) cell.classList.add('weekend');
+        if (isHoliday(prevDate.getMonth() + 1, prevDate.getDate())) cell.classList.add('holiday');
+        cell.innerHTML = '<span class="day-number">' + prevDate.getDate() + '</span>';
+        grid.appendChild(cell);
+      }
+
+      for (var d = 1; d <= lastDay.getDate(); d++) {
+        var cell = document.createElement('div');
+        cell.className = 'day-cell';
+        var dayDate = new Date(year, month, d);
+        var dateKey = formatDateKey(dayDate);
+        var dow = dayDate.getDay();
+        if (isWeekend(dow)) cell.classList.add('weekend');
+        if (isHoliday(month + 1, d)) cell.classList.add('holiday');
+        if (isSameDay(dayDate, new Date())) cell.classList.add('today');
+
+        var hours = overtimeData[dateKey];
+        var cellHTML = '<span class="day-number">' + d + '</span>';
+        if (hours !== undefined && hours !== null && hours > 0) {
+          cell.classList.add('has-overtime');
+          cellHTML += '<span class="day-hours">' + hours.toFixed(1) + ' ч</span>';
+        }
+        cellHTML += '<input type="number" class="cell-hours-input" min="0" step="0.5" inputmode="decimal" placeholder="ч." />';
+        cell.innerHTML = cellHTML;
+
+        (function(key, cellEl) {
+          cellEl.addEventListener('click', function(e) {
+            if (swipeDidMove) return;
+            startInlineEdit(key, cellEl);
+          });
+          var inp = cellEl.querySelector('.cell-hours-input');
+          inp.addEventListener('keydown', function(e) {
+            e.stopPropagation();
+            if (e.key === 'Enter') { e.preventDefault(); saveInlineEdit(); }
+            else if (e.key === 'Escape') { e.preventDefault(); cancelInlineEdit(); }
+          });
+          inp.addEventListener('blur', function() { if (editingCell === cellEl) saveInlineEdit(); });
+          inp.addEventListener('click', function(e) { e.stopPropagation(); });
+        })(dateKey, cell);
+
+        grid.appendChild(cell);
+      }
+
+      var totalCells = prevOffset + lastDay.getDate();
+      var remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+      for (var j = 1; j <= remaining; j++) {
+        var cell = document.createElement('div');
+        cell.className = 'day-cell other-month';
+        var nextDate = new Date(year, month + 1, j);
+        if (isWeekend(nextDate.getDay())) cell.classList.add('weekend');
+        if (isHoliday(nextDate.getMonth() + 1, nextDate.getDate())) cell.classList.add('holiday');
+        cell.innerHTML = '<span class="day-number">' + j + '</span>';
+        grid.appendChild(cell);
+      }
+    }
+
+    function prevMonth() {
+      saveInlineEdit();
+      currentDate.setMonth(currentDate.getMonth() - 1);
+      renderCalendar(currentDate);
+      updateTotal();
+      saveLastViewedMonth();
+      restoreInputsForMonth();
+    }
+    function nextMonth() {
+      saveInlineEdit();
+      currentDate.setMonth(currentDate.getMonth() + 1);
+      renderCalendar(currentDate);
+      updateTotal();
+      saveLastViewedMonth();
+      restoreInputsForMonth();
+    }
+    function saveLastViewedMonth() {
+      if (!storageAvailable) return;
+      localStorage.setItem('overtime_last_month', currentDate.getFullYear() + '-' + pad2(currentDate.getMonth() + 1));
+    }
+    function restoreInputsForMonth() {
+      var monthKey = currentDate.getFullYear() + '-' + pad2(currentDate.getMonth() + 1);
+      var savedAcc15 = '0', savedAcc2 = '0';
+      if (storageAvailable) {
+        savedAcc15 = localStorage.getItem('acc15_' + monthKey) || '0';
+        savedAcc2 = localStorage.getItem('acc2_' + monthKey) || '0';
+      }
+      accOt15 = parseFloat(savedAcc15) || 0;
+      accOt2 = parseFloat(savedAcc2) || 0;
+      document.getElementById('ot-15').value = '';
+      document.getElementById('ot-2').value = '';
+      calculatePay();
+    }
+    function saveInputsForMonth() {
+      if (!storageAvailable) return;
+      var monthKey = currentDate.getFullYear() + '-' + pad2(currentDate.getMonth() + 1);
+      localStorage.setItem('acc15_' + monthKey, String(accOt15));
+      localStorage.setItem('acc2_' + monthKey, String(accOt2));
+    }
+    function clearAcc15() { accOt15 = 0; saveInputsForMonth(); calculatePay(); }
+    function clearAcc2() { accOt2 = 0; saveInputsForMonth(); calculatePay(); }
+    function add15() {
+      var input = document.getElementById('ot-15');
+      var val = parseFloat(input.value);
+      if (!isNaN(val) && val > 0) { accOt15 += val; saveInputsForMonth(); calculatePay(); }
+      input.value = ''; input.focus();
+    }
+    function add2() {
+      var input = document.getElementById('ot-2');
+      var val = parseFloat(input.value);
+      if (!isNaN(val) && val > 0) { accOt2 += val; saveInputsForMonth(); calculatePay(); }
+      input.value = ''; input.focus();
+    }
+
+    function updateTotal() {
+      var year = currentDate.getFullYear();
+      var month = currentDate.getMonth() + 1;
+      var total = 0;
+      var keys = Object.keys(overtimeData);
+      for (var i = 0; i < keys.length; i++) {
+        var parts = keys[i].split('-');
+        var y = parseInt(parts[0], 10);
+        var m = parseInt(parts[1], 10);
+        var hours = overtimeData[keys[i]];
+        if (y === year && m === month && hours > 0) total += hours;
+      }
+      document.getElementById('total-overtime').textContent = total.toFixed(1) + ' ч';
+    }
+
+    document.getElementById('ot-15').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); add15(); }
+    });
+    document.getElementById('ot-2').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); add2(); }
+    });
+    document.getElementById('salary-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); saveSalary(); }
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && editingCell) cancelInlineEdit();
+    });
+
+    /* ===== Свайпы ===== */
+    var SWIPE_THRESHOLD = 50;
+    var swipeStartX = 0, swipeStartY = 0, swipeDidMove = false;
+    var calWrapper = document.getElementById('calendar-wrapper');
+    calWrapper.addEventListener('touchstart', function(e) {
+      if (e.touches.length !== 1) return;
+      swipeStartX = e.touches[0].clientX;
+      swipeStartY = e.touches[0].clientY;
+      swipeDidMove = false;
+    }, { passive: true });
+    calWrapper.addEventListener('touchmove', function(e) {
+      if (e.touches.length !== 1) return;
+      var dx = e.touches[0].clientX - swipeStartX;
+      var dy = e.touches[0].clientY - swipeStartY;
+      if (Math.abs(dx) > 10 || Math.abs(dy) > 10) swipeDidMove = true;
+    }, { passive: true });
+    calWrapper.addEventListener('touchend', function(e) {
+      if (!swipeDidMove) return;
+      var dx = e.changedTouches[0].clientX - swipeStartX;
+      var dy = e.changedTouches[0].clientY - swipeStartY;
+      if (Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 0) prevMonth(); else nextMonth();
+      }
+      setTimeout(function() { swipeDidMove = false; }, 100);
+    }, { passive: true });
+
+    document.getElementById('salary-input').value = SALARY;
+    renderCalendar(currentDate);
+    updateTotal();
+    restoreInputsForMonth();
+  </script>
+</body>
+</html>
