@@ -2,7 +2,10 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <title>Календарь переработок</title>
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" type="image/png" href="./icon-192.png">
@@ -207,6 +210,7 @@
       --select-focus-glow: rgba(79, 70, 229, 0.2);
     }
     html {
+      font-size: 16px;
       min-height: 100%;
       width: 100%;
       overflow-x: clip;
@@ -672,7 +676,7 @@
     .ndfl-result.tax .value { color: var(--calc-text-muted); }
 
     @media (max-width: 768px) {
-      input[type="text"], input[type="number"], select, textarea { font-size: 16px !important; }
+      input, select, textarea, .cell-hours-input, .rate-input, .salary-input, .pay-num-input { font-size: 16px !important; }
     }
     @media (max-width: 480px) {
       body { padding: 14px; padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); padding-top: max(14px, env(safe-area-inset-top)); padding-bottom: max(14px, env(safe-area-inset-bottom)); }
@@ -1254,7 +1258,7 @@
     </div>
     <div class="summary-bar">
       <div class="summary-card hours-card">
-        <div class="summary-label">Итого часов за месяц</div>
+        <div class="summary-label">Итого часов</div>
         <div class="summary-value" id="total-overtime">0.0 ч</div>
       </div>
       <div class="summary-card pay-card-main">
@@ -2719,7 +2723,6 @@
         var nc = document.createElement('div');
         nc.className = 'day-cell other-month';
         var nn = document.createElement('span');
-        nn.className = 'day-number';
         nn.textContent = n;
         nc.appendChild(nn);
         g.appendChild(nc);
@@ -2915,7 +2918,7 @@
       document.getElementById('ndfl-tax').textContent = formatMoney(tx);
       document.getElementById('ndfl-net').textContent = formatMoney(nt);
       document.getElementById('total-pay').textContent = formatMoney(ndflEnabled ? nt : gt);
-      document.getElementById('pay-label').textContent = ndflEnabled ? 'Итого на руки (с НДФЛ)' : 'Итого к выплате';
+      document.getElementById('pay-label').textContent = ndflEnabled ? 'Итого (с НДФЛ)' : 'Итого к выплате';
     }
 
     function updateTotal(){
