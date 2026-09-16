@@ -16,16 +16,12 @@
     })();
   </script>
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { box-sizing: border-box; }
     :root {
       --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 40%, #334155 100%);
-      --card: #ffffff;
       --primary: #6366f1;
       --accent: #ef4444;
       --text: #f8fafc;
-      --border: #374151;
       --success: #22c55e;
       --muted: #94a3b8;
       --toggle-bg: linear-gradient(145deg, #818cf8, #4f46e5);
@@ -90,7 +86,7 @@
       --calc-acc-border: rgba(99, 102, 241, 0.2);
       --calc-acc-bg-red: rgba(239, 68, 68, 0.1);
       --calc-acc-border-red: rgba(239, 68, 68, 0.2);
-      --calc-badge-15-bg: rgba(99, 102, 241, 0.15);
+      --calc-badge-15-bg: rgba(99, 102, 241, 0.12);
       --calc-badge-15-border: rgba(99, 102, 241, 0.3);
       --calc-badge-20-bg: rgba(239, 68, 68, 0.15);
       --calc-badge-20-border: rgba(239, 68, 68, 0.3);
@@ -231,20 +227,17 @@
       min-height: 100dvh;
       width: 100%;
       overflow-x: clip;
-      box-sizing: border-box;
       transition: background 0.3s ease, color 0.3s ease;
     }
     .container {
       max-width: 960px;
       width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-      min-width: 0;
+      margin: 0 auto;
     }
-    .header-row { position: relative; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .header-row { margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
     .header-left { display: flex; align-items: center; gap: 12px; }
-    h1 { text-align: left; text-shadow: var(--title-shadow); margin: 0; font-size: 1.35rem; }
-    .icon-btn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: var(--text); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.2s, border-color 0.2s; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 10; line-height: 1; padding: 0; flex-shrink: 0; }
+    h1 { text-shadow: var(--title-shadow); margin: 0; font-size: 1.35rem; }
+    .icon-btn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: var(--text); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.2s, border-color 0.2s; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); line-height: 1; padding: 0; flex-shrink: 0; }
     .icon-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); }
     .icon-btn:active { transform: scale(0.95); }
     [data-theme="light"] .icon-btn { border-color: rgba(30,41,59,0.15); background: rgba(255,255,255,0.5); }
@@ -252,7 +245,6 @@
 
     .icon-chevron { display: block; flex-shrink: 0; transition: transform 0.25s ease; pointer-events: none; }
     .icon-chevron.left { transform: rotate(90deg); }
-    .stats-daily-toggle-btn .icon-chevron, .toggle-btn .icon-chevron, .pay-collapse-header .icon-chevron { transition: transform 0.3s ease; }
     .stats-daily-box.collapsed .stats-daily-toggle-btn .icon-chevron, .calc-section.collapsed .toggle-btn .icon-chevron { transform: rotate(180deg); }
     .pay-accordion.collapsed .pay-collapse-header .icon-chevron { transform: rotate(0deg); }
     .pay-accordion:not(.collapsed) .pay-collapse-header .icon-chevron { transform: rotate(180deg); }
@@ -268,20 +260,20 @@
     .sidebar-content { padding: 20px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 20px; overscroll-behavior: contain; -webkit-overscroll-behavior: contain; }
     .sidebar-section { display: flex; flex-direction: column; gap: 10px; }
     .sidebar-section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 2px; }
-    .sidebar-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--sidebar-border); background: var(--calc-card-bg); color: var(--sidebar-text); font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; box-sizing: border-box; text-align: left; }
+    .sidebar-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--sidebar-border); background: var(--calc-card-bg); color: var(--sidebar-text); font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; text-align: left; }
     .sidebar-btn:hover { background: rgba(99,102,241,0.15); border-color: var(--primary); }
     .sidebar-btn:active { transform: scale(0.98); }
     .sidebar-btn.danger { color: var(--accent); }
     .sidebar-btn.danger:hover { background: rgba(239,68,68,0.15); border-color: var(--accent); }
     
-    .notes-page, .stats-page, .pay-page, .absence-page { position: fixed; inset: 0; background: var(--notes-page-bg); z-index: 1100; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), visibility 0.3s; overflow: hidden; visibility: hidden; }
-    .notes-page.open, .stats-page.open, .pay-page.open, .absence-page.open { transform: translateX(0); visibility: visible; }
-    .notes-page-header, .stats-page-header, .pay-page-header, .absence-page-header { display: flex; align-items: center; gap: 12px; padding: 16px 20px; padding-top: max(16px, env(safe-area-inset-top)); border-bottom: 1px solid var(--sidebar-border); flex-shrink: 0; }
-    .notes-page-title, .stats-page-title, .pay-page-title, .absence-page-title { font-size: 1.2rem; font-weight: 700; color: var(--sidebar-text); flex: 1; }
-    .notes-page-content, .stats-page-content, .pay-page-content, .absence-page-content { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: max(20px, env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 16px; max-width: 680px; width: 100%; margin: 0 auto; box-sizing: border-box; overscroll-behavior: contain; -webkit-overscroll-behavior: contain; }
+    .subpage { position: fixed; inset: 0; background: var(--notes-page-bg); z-index: 1100; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), visibility 0.3s; overflow: hidden; visibility: hidden; }
+    .subpage.open { transform: translateX(0); visibility: visible; }
+    .subpage-header { display: flex; align-items: center; gap: 12px; padding: 16px 20px; padding-top: max(16px, env(safe-area-inset-top)); border-bottom: 1px solid var(--sidebar-border); flex-shrink: 0; }
+    .subpage-title { font-size: 1.2rem; font-weight: 700; color: var(--sidebar-text); flex: 1; }
+    .subpage-content { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: max(20px, env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 16px; max-width: 680px; width: 100%; margin: 0 auto; overscroll-behavior: contain; -webkit-overscroll-behavior: contain; }
 
     .notes-add-box { display: flex; flex-direction: column; gap: 8px; background: var(--calc-card-bg); border: 1px solid var(--sidebar-border); border-radius: 12px; padding: 12px; }
-    .notes-add-box textarea { width: 100%; min-height: 80px; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--calc-input-border); background: var(--calc-input-bg); color: var(--sidebar-text); font-family: inherit; font-size: 0.9rem; box-sizing: border-box; resize: vertical; outline: none; transition: border-color 0.2s; }
+    .notes-add-box textarea { width: 100%; min-height: 80px; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--calc-input-border); background: var(--calc-input-bg); color: var(--sidebar-text); font-family: inherit; font-size: 0.9rem; resize: vertical; outline: none; transition: border-color 0.2s; }
     .notes-add-box textarea:focus { border-color: var(--primary); }
     .notes-add-box textarea::placeholder { color: var(--calc-input-placeholder); }
     .notes-add-btn { padding: 10px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: background 0.15s, transform 0.1s; align-self: flex-start; }
@@ -294,85 +286,24 @@
     .notes-page-item-text { flex: 1; white-space: pre-wrap; line-height: 1.5; color: var(--sidebar-text); }
     .notes-page-item-del { background: transparent; border: none; color: var(--muted); cursor: pointer; font-size: 1.1rem; padding: 2px 6px; line-height: 1; border-radius: 6px; transition: color 0.15s, background 0.15s; flex-shrink: 0; }
     .notes-page-item-del:hover { color: var(--accent); background: rgba(239,68,68,0.1); }
-    .notes-clear-all-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--calc-clear-btn-border); background: var(--calc-clear-btn-bg); color: var(--calc-clear-btn-text); font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.1s; box-sizing: border-box; margin-top: 8px; }
+    .notes-clear-all-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid var(--calc-clear-btn-border); background: var(--calc-clear-btn-bg); color: var(--calc-clear-btn-text); font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.1s; margin-top: 8px; }
     .notes-clear-all-btn:hover { background: var(--calc-clear-btn-hover-bg); color: var(--calc-clear-btn-hover-text); border-color: var(--calc-clear-btn-hover-border); }
     .notes-clear-all-btn:active { transform: scale(0.97); }
     .notes-clear-all-btn.hidden { display: none; }
 
-    .absence-summary-card {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(148, 163, 184, 0.1) 100%);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      border-radius: 16px;
-      padding: 16px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .absence-summary-title {
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--calc-text-muted);
-    }
-    .absence-summary-val {
-      font-size: 1.35rem;
-      font-weight: 900;
-      color: var(--accent);
-      margin-top: 3px;
-    }
-    .absence-summary-deduct {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--sidebar-text);
-      text-align: right;
-    }
+    .absence-summary-card { background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(148, 163, 184, 0.1) 100%); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 16px; padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .absence-summary-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--calc-text-muted); }
+    .absence-summary-val { font-size: 1.35rem; font-weight: 900; color: var(--accent); margin-top: 3px; }
+    .absence-summary-deduct { font-size: 0.82rem; font-weight: 700; color: var(--sidebar-text); text-align: right; }
 
-    .absence-item {
-      background: var(--calc-card-bg);
-      border: 1px solid var(--sidebar-border);
-      border-left: 4px solid var(--accent);
-      border-radius: 12px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      transition: border-color 0.2s;
-    }
-    .absence-item-date {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--sidebar-text);
-    }
-    .absence-item-reason {
-      font-size: 0.74rem;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-    .absence-item-deduct {
-      font-size: 0.85rem;
-      font-weight: 800;
-      color: var(--accent);
-      white-space: nowrap;
-    }
+    .absence-item { background: var(--calc-card-bg); border: 1px solid var(--sidebar-border); border-left: 4px solid var(--accent); border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; transition: border-color 0.2s; }
+    .absence-item-date { font-size: 0.9rem; font-weight: 700; color: var(--sidebar-text); }
+    .absence-item-reason { font-size: 0.74rem; color: var(--muted); margin-top: 2px; }
+    .absence-item-deduct { font-size: 0.85rem; font-weight: 800; color: var(--accent); white-space: nowrap; }
 
-    .day-cell.absent {
-      background: rgba(239, 68, 68, 0.16) !important;
-      border-color: rgba(239, 68, 68, 0.45) !important;
-      box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.35) !important;
-    }
-    .day-cell.absent .day-number {
-      color: #ef4444 !important;
-      text-decoration: line-through;
-      font-weight: 700;
-    }
-    .day-cell.absent .day-hours {
-      color: #f87171 !important;
-      font-size: 0.62rem;
-      font-weight: 700;
-    }
+    .day-cell.absent { background: rgba(239, 68, 68, 0.16) !important; border-color: rgba(239, 68, 68, 0.45) !important; box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.35) !important; }
+    .day-cell.absent .day-number { color: #ef4444 !important; text-decoration: line-through; font-weight: 700; }
+    .day-cell.absent .day-hours { color: #f87171 !important; font-size: 0.62rem; font-weight: 700; }
 
     .stats-years-chips { display: flex; align-items: center; gap: 8px; overflow-x: auto; padding: 4px 0; scrollbar-width: none; -webkit-overflow-scrolling: touch; flex-shrink: 0; }
     .stats-years-chips::-webkit-scrollbar { display: none; }
@@ -393,15 +324,13 @@
     @keyframes statsDropdownFade { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
     .stats-month-dropdown-options { max-height: 280px; overflow-y: auto; overscroll-behavior: contain; -webkit-overscroll-behavior: contain; padding: 4px; }
     .stats-month-dropdown-options::-webkit-scrollbar { width: 6px; }
-    .stats-month-dropdown-options::-webkit-scrollbar-track { background: transparent; }
     .stats-month-dropdown-options::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 3px; }
     .stats-month-option { display: flex; align-items: center; justify-content: space-between; padding: 9px 12px; border-radius: 8px; cursor: pointer; font-size: 0.88rem; color: var(--sidebar-text); transition: background 0.15s, color 0.15s; user-select: none; -webkit-user-select: none; }
     .stats-month-option:hover { background: rgba(99,102,241,0.1); }
     .stats-month-option.selected { background: var(--primary); color: #fff; font-weight: 700; }
     .stats-month-option-hours { font-size: 0.78rem; font-weight: 600; opacity: 0.7; white-space: nowrap; }
-    .stats-month-option.selected .stats-month-option-hours { opacity: 0.9; }
 
-    .stats-daily-box { background: var(--calc-card-bg); border: 1px solid var(--sidebar-border); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; max-width: 100%; }
+    .stats-daily-box { background: var(--calc-card-bg); border: 1px solid var(--sidebar-border); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
     .stats-daily-title-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
     .stats-daily-title { font-size: 0.9rem; font-weight: 700; color: var(--sidebar-text); }
     .stats-daily-toggle-btn { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--sidebar-border); background: var(--calc-card-bg); color: var(--sidebar-text); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; font-weight: 700; line-height: 1; transition: background 0.2s, border-color 0.2s; flex-shrink: 0; padding: 0; }
@@ -425,550 +354,117 @@
     .stats-daily-summary-label { font-size: 0.8rem; color: var(--calc-text-muted); font-weight: 600; }
     .stats-daily-summary-value { font-size: 1rem; font-weight: 800; color: var(--primary); }
 
-    .pay-month-info-card {
-      background: var(--calc-card-bg);
-      border: 1px solid var(--sidebar-border);
-      border-radius: 14px;
-      padding: 12px 14px;
-    }
-    .pay-info-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-    }
-    .pay-info-item {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      min-width: 0;
-    }
-    .pay-info-label {
-      font-size: 0.68rem;
-      color: var(--calc-text-muted);
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .pay-info-val {
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: var(--sidebar-text);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    .pay-month-info-card { background: var(--calc-card-bg); border: 1px solid var(--sidebar-border); border-radius: 14px; padding: 12px 14px; }
+    .pay-info-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .pay-info-item { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .pay-info-label { font-size: 0.68rem; color: var(--calc-text-muted); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .pay-info-val { font-size: 0.88rem; font-weight: 800; color: var(--sidebar-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    .pay-overview-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .pay-overview-banner {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(34, 197, 94, 0.15) 100%);
-      border: 1px solid rgba(99, 102, 241, 0.25);
-      border-radius: 16px;
-      padding: 14px 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .pay-overview-banner.gross-banner {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(99, 102, 241, 0.12) 100%);
-      border-color: rgba(99, 102, 241, 0.2);
-    }
-    .pay-overview-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .pay-overview-title {
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--calc-text-muted);
-    }
-    .pay-overview-amount {
-      font-size: 1.45rem;
-      font-weight: 900;
-      color: var(--sidebar-text);
-      line-height: 1.15;
-      margin-top: 4px;
-    }
-    .pay-overview-badges {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 5px;
-    }
-    .pay-badge-ndfl, .pay-badge-gross {
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 20px;
-      white-space: nowrap;
-    }
-    .pay-badge-ndfl {
-      background: rgba(34, 197, 94, 0.15);
-      color: var(--success);
-      border: 1px solid rgba(34, 197, 94, 0.3);
-    }
-    .pay-badge-ndfl.off {
-      background: rgba(148, 163, 184, 0.15);
-      color: var(--calc-text-muted);
-      border-color: rgba(148, 163, 184, 0.3);
-    }
-    .pay-badge-gross {
-      background: rgba(99, 102, 241, 0.15);
-      color: var(--primary);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-    }
-    .pay-overview-tax-text {
-      font-size: 0.7rem;
-      color: var(--calc-text-muted);
-      text-align: right;
-    }
+    .pay-overview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .pay-overview-banner { background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(34, 197, 94, 0.15) 100%); border: 1px solid rgba(99, 102, 241, 0.25); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
+    .pay-overview-banner.gross-banner { background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(99, 102, 241, 0.12) 100%); border-color: rgba(99, 102, 241, 0.2); }
+    .pay-overview-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .pay-overview-title { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--calc-text-muted); }
+    .pay-overview-amount { font-size: 1.45rem; font-weight: 900; color: var(--sidebar-text); line-height: 1.15; margin-top: 4px; }
+    .pay-overview-badges { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+    .pay-badge-ndfl, .pay-badge-gross { font-size: 0.7rem; font-weight: 700; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
+    .pay-badge-ndfl { background: rgba(34, 197, 94, 0.15); color: var(--success); border: 1px solid rgba(34, 197, 94, 0.3); }
+    .pay-badge-ndfl.off { background: rgba(148, 163, 184, 0.15); color: var(--calc-text-muted); border-color: rgba(148, 163, 184, 0.3); }
+    .pay-badge-gross { background: rgba(99, 102, 241, 0.15); color: var(--primary); border: 1px solid rgba(99, 102, 241, 0.3); }
+    .pay-overview-tax-text { font-size: 0.7rem; color: var(--calc-text-muted); text-align: right; }
 
-    .pay-cards-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .pay-card {
-      background: var(--calc-card-bg);
-      border: 1px solid var(--sidebar-border);
-      border-radius: 16px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      transition: border-color 0.2s ease, transform 0.15s ease;
-    }
+    .pay-cards-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .pay-card { background: var(--calc-card-bg); border: 1px solid var(--sidebar-border); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
     .pay-card.advance { border-top: 3px solid var(--primary); }
     .pay-card.salary { border-top: 3px solid var(--success); }
 
-    .pay-card-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      padding-bottom: 8px;
-    }
+    .pay-card-head { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 8px; }
     [data-theme="light"] .pay-card-head { border-bottom-color: rgba(0,0,0,0.06); }
-    .pay-card-tag {
-      font-size: 0.85rem;
-      font-weight: 800;
-      color: var(--sidebar-text);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .pay-date-pill {
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--calc-text-muted);
-    }
+    .pay-card-tag { font-size: 0.85rem; font-weight: 800; color: var(--sidebar-text); display: flex; align-items: center; gap: 6px; }
+    .pay-date-pill { font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: rgba(255, 255, 255, 0.08); color: var(--calc-text-muted); }
     [data-theme="light"] .pay-date-pill { background: rgba(0,0,0,0.06); color: #475569; }
 
-    .pay-card-sum-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .pay-card-sum-label {
-      font-size: 0.68rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--calc-text-muted);
-    }
-    .pay-card-sum {
-      font-size: 1.35rem;
-      font-weight: 900;
-      color: var(--primary);
-    }
+    .pay-card-sum-wrap { display: flex; flex-direction: column; gap: 2px; }
+    .pay-card-sum-label { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--calc-text-muted); }
+    .pay-card-sum { font-size: 1.35rem; font-weight: 900; color: var(--primary); }
     .pay-card.salary .pay-card-sum { color: var(--success); }
 
-    .pay-receipt {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      background: var(--stats-detail-bg);
-      border-radius: 10px;
-      padding: 10px 12px;
-      border: 1px solid rgba(255,255,255,0.04);
-    }
+    .pay-receipt { display: flex; flex-direction: column; gap: 6px; background: var(--stats-detail-bg); border-radius: 10px; padding: 10px 12px; border: 1px solid rgba(255,255,255,0.04); }
     [data-theme="light"] .pay-receipt { border-color: rgba(0,0,0,0.04); }
-    .pay-receipt-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.76rem;
-      color: var(--calc-text-muted);
-    }
-    .pay-receipt-row strong {
-      color: var(--sidebar-text);
-      font-weight: 700;
-    }
-    .pay-receipt-row.tax strong, .pay-receipt-row.deduction strong {
-      color: var(--accent);
-    }
-    .pay-receipt-row.total-gross {
-      border-top: 1px dashed rgba(255,255,255,0.1);
-      margin-top: 2px;
-      padding-top: 4px;
-      font-size: 0.74rem;
-    }
+    .pay-receipt-row { display: flex; align-items: center; justify-content: space-between; font-size: 0.76rem; color: var(--calc-text-muted); }
+    .pay-receipt-row strong { color: var(--sidebar-text); font-weight: 700; }
+    .pay-receipt-row.tax strong, .pay-receipt-row.deduction strong { color: var(--accent); }
+    .pay-receipt-row.total-gross { border-top: 1px dashed rgba(255,255,255,0.1); margin-top: 2px; padding-top: 4px; font-size: 0.74rem; }
     [data-theme="light"] .pay-receipt-row.total-gross { border-top-color: rgba(0,0,0,0.1); }
 
-    .pay-absence-info-row {
-      background: rgba(239, 68, 68, 0.08);
-      border: 1px solid rgba(239, 68, 68, 0.25);
-      border-radius: 14px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .pay-absence-info-title {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--sidebar-text);
-    }
-    .pay-absence-info-sub {
-      font-size: 0.68rem;
-      color: var(--calc-text-muted);
-    }
-    .pay-absence-info-val {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--accent);
-      white-space: nowrap;
-    }
+    .pay-absence-info-row { background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .pay-absence-info-title { font-size: 0.82rem; font-weight: 700; color: var(--sidebar-text); }
+    .pay-absence-info-sub { font-size: 0.68rem; color: var(--calc-text-muted); }
+    .pay-absence-info-val { font-size: 1.05rem; font-weight: 800; color: var(--accent); white-space: nowrap; }
 
-    .pay-remainder-banner {
-      background: var(--calc-acc-bg);
-      border: 1px solid var(--calc-acc-border);
-      border-radius: 14px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .pay-remainder-title {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--sidebar-text);
-    }
-    .pay-remainder-sub {
-      font-size: 0.68rem;
-      color: var(--calc-text-muted);
-    }
-    .pay-remainder-val {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--primary);
-      white-space: nowrap;
-    }
+    .pay-remainder-banner { background: var(--calc-acc-bg); border: 1px solid var(--calc-acc-border); border-radius: 14px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .pay-remainder-title { font-size: 0.82rem; font-weight: 700; color: var(--sidebar-text); }
+    .pay-remainder-sub { font-size: 0.68rem; color: var(--calc-text-muted); }
+    .pay-remainder-val { font-size: 1.15rem; font-weight: 800; color: var(--primary); white-space: nowrap; }
 
-    .pay-periods-section {
-      background: var(--calc-card-bg);
-      border: 1px solid var(--sidebar-border);
-      border-radius: 16px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .pay-periods-top-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .pay-periods-ratio-badge {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--calc-text-muted);
-      background: rgba(255, 255, 255, 0.05);
-      padding: 3px 10px;
-      border-radius: 20px;
-      border: 1px solid var(--sidebar-border);
-    }
-    [data-theme="light"] .pay-periods-ratio-badge {
-      background: rgba(0, 0, 0, 0.04);
-    }
+    .pay-periods-section { background: var(--calc-card-bg); border: 1px solid var(--sidebar-border); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+    .pay-periods-top-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .pay-periods-ratio-badge { font-size: 0.75rem; font-weight: 700; color: var(--calc-text-muted); background: rgba(255, 255, 255, 0.05); padding: 3px 10px; border-radius: 20px; border: 1px solid var(--sidebar-border); }
+    [data-theme="light"] .pay-periods-ratio-badge { background: rgba(0, 0, 0, 0.04); }
 
-    .pay-periods-progress-bar {
-      width: 100%;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 6px;
-      overflow: hidden;
-      display: flex;
-    }
-    [data-theme="light"] .pay-periods-progress-bar {
-      background: rgba(0, 0, 0, 0.08);
-    }
-    .pay-progress-seg.before {
-      background: var(--primary);
-      transition: width 0.3s ease;
-    }
-    .pay-progress-seg.after {
-      background: var(--success);
-      transition: width 0.3s ease;
-    }
+    .pay-periods-progress-bar { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 6px; overflow: hidden; display: flex; }
+    [data-theme="light"] .pay-periods-progress-bar { background: rgba(0, 0, 0, 0.08); }
+    .pay-progress-seg.before { background: var(--primary); transition: width 0.3s ease; }
+    .pay-progress-seg.after { background: var(--success); transition: width 0.3s ease; }
 
-    .pay-periods-dual-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .pay-period-detail-box {
-      background: var(--stats-detail-bg);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 14px;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      position: relative;
-    }
-    [data-theme="light"] .pay-period-detail-box {
-      border-color: rgba(0, 0, 0, 0.06);
-      background: rgba(255, 255, 255, 0.6);
-    }
-    .pay-period-detail-box.first-half {
-      border-left: 4px solid var(--primary);
-    }
-    .pay-period-detail-box.second-half {
-      border-left: 4px solid var(--success);
-    }
+    .pay-periods-dual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .pay-period-detail-box { background: var(--stats-detail-bg); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+    [data-theme="light"] .pay-period-detail-box { border-color: rgba(0, 0, 0, 0.06); background: rgba(255, 255, 255, 0.6); }
+    .pay-period-detail-box.first-half { border-left: 4px solid var(--primary); }
+    .pay-period-detail-box.second-half { border-left: 4px solid var(--success); }
 
-    .pay-period-box-head {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .pay-period-box-title {
-      font-size: 0.84rem;
-      font-weight: 800;
-      color: var(--sidebar-text);
-      line-height: 1.25;
-    }
-    .pay-period-box-sum {
-      font-size: 1.1rem;
-      font-weight: 900;
-      color: var(--primary);
-      text-align: right;
-      white-space: nowrap;
-    }
-    .pay-period-detail-box.second-half .pay-period-box-sum {
-      color: var(--success);
-    }
-    .pay-period-box-net-label {
-      font-size: 0.66rem;
-      color: var(--calc-text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
+    .pay-period-box-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .pay-period-box-title { font-size: 0.84rem; font-weight: 800; color: var(--sidebar-text); line-height: 1.25; }
+    .pay-period-box-sum { font-size: 1.1rem; font-weight: 900; color: var(--primary); text-align: right; white-space: nowrap; }
+    .pay-period-detail-box.second-half .pay-period-box-sum { color: var(--success); }
+    .pay-period-box-net-label { font-size: 0.66rem; color: var(--calc-text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
 
-    .pay-period-stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-    .pay-period-mini-card {
-      background: var(--calc-card-bg);
-      border: 1px solid var(--sidebar-border);
-      border-radius: 10px;
-      padding: 8px 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-    .pay-mini-card-label {
-      font-size: 0.66rem;
-      color: var(--calc-text-muted);
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .pay-mini-card-val {
-      font-size: 0.82rem;
-      font-weight: 800;
-      color: var(--sidebar-text);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .pay-mini-card-val.tax, .pay-mini-card-val.deduct {
-      color: var(--accent);
-    }
+    .pay-period-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .pay-period-mini-card { background: var(--calc-card-bg); border: 1px solid var(--sidebar-border); border-radius: 10px; padding: 8px 10px; display: flex; flex-direction: column; gap: 3px; }
+    .pay-mini-card-label { font-size: 0.66rem; color: var(--calc-text-muted); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .pay-mini-card-val { font-size: 0.82rem; font-weight: 800; color: var(--sidebar-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .pay-mini-card-val.deduct { color: var(--accent); }
 
-    .pay-accordion {
-      background: var(--calc-card-bg);
-      border: 1px solid var(--sidebar-border);
-      border-radius: 14px;
-      overflow: hidden;
-      transition: border-color 0.2s;
-    }
-    .pay-collapse-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 16px;
-      cursor: pointer;
-      user-select: none;
-      background: rgba(255,255,255,0.02);
-    }
-    .pay-collapse-header:hover {
-      background: rgba(99,102,241,0.05);
-    }
-    .pay-collapse-title {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--sidebar-text);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .pay-collapse-body {
-      padding: 16px;
-      border-top: 1px solid var(--sidebar-border);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .pay-accordion.collapsed .pay-collapse-body {
-      display: none;
-    }
+    .pay-accordion { background: var(--calc-card-bg); border: 1px solid var(--sidebar-border); border-radius: 14px; overflow: hidden; }
+    .pay-collapse-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; cursor: pointer; user-select: none; background: rgba(255,255,255,0.02); }
+    .pay-collapse-header:hover { background: rgba(99,102,241,0.05); }
+    .pay-collapse-title { font-size: 0.88rem; font-weight: 700; color: var(--sidebar-text); display: flex; align-items: center; gap: 8px; }
+    .pay-collapse-body { padding: 16px; border-top: 1px solid var(--sidebar-border); display: flex; flex-direction: column; gap: 14px; }
+    .pay-accordion.collapsed .pay-collapse-body { display: none; }
 
-    .pay-section-card {
-      background: var(--calc-card-bg);
-      border: 1px solid var(--sidebar-border);
-      border-radius: 14px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .pay-section-title {
-      font-size: 0.82rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--calc-text-muted);
-    }
-    .pay-settings-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    .pay-setting-row {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .pay-setting-label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--sidebar-text);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .pay-select, .pay-num-input {
-      width: 100%;
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1px solid var(--calc-input-border);
-      background: var(--calc-input-bg);
-      color: var(--sidebar-text);
-      font-size: 0.88rem;
-      outline: none;
-      box-sizing: border-box;
-      font-family: inherit;
-    }
-    .pay-select:focus, .pay-num-input:focus {
-      border-color: var(--primary);
-    }
-    .pay-num-input.saved {
-      border-color: var(--success) !important;
-    }
+    .pay-section-card { background: var(--calc-card-bg); border: 1px solid var(--sidebar-border); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .pay-section-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--calc-text-muted); }
+    .pay-settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .pay-setting-row { display: flex; flex-direction: column; gap: 6px; }
+    .pay-setting-label { font-size: 0.8rem; font-weight: 600; color: var(--sidebar-text); display: flex; align-items: center; justify-content: space-between; }
+    .pay-select, .pay-num-input { width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--calc-input-border); background: var(--calc-input-bg); color: var(--sidebar-text); font-size: 0.88rem; outline: none; font-family: inherit; }
+    .pay-select:focus, .pay-num-input:focus { border-color: var(--primary); }
+    .pay-num-input.saved { border-color: var(--success) !important; }
 
-    .pay-input-with-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .pay-input-with-btn .pay-num-input {
-      flex: 1;
-      min-width: 0;
-    }
-    .btn-save-pay-item {
-      background: var(--calc-save-ok-bg);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      width: 38px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: background 0.15s, transform 0.1s;
-      padding: 0;
-      font-size: 1.05rem;
-      font-weight: 700;
-      line-height: 1;
-    }
-    .btn-save-pay-item:hover {
-      background: var(--calc-save-ok-hover);
-    }
-    .btn-save-pay-item:active {
-      transform: scale(0.94);
-    }
+    .pay-input-with-btn { display: flex; align-items: center; gap: 6px; }
+    .pay-input-with-btn .pay-num-input { flex: 1; min-width: 0; }
+    .btn-save-pay-item { background: var(--calc-save-ok-bg); color: white; border: none; border-radius: 8px; width: 38px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background 0.15s, transform 0.1s; padding: 0; font-size: 1.05rem; font-weight: 700; line-height: 1; }
+    .btn-save-pay-item:hover { background: var(--calc-save-ok-hover); }
+    .btn-save-pay-item:active { transform: scale(0.94); }
 
-    .pay-toggle-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1px solid var(--sidebar-border);
-      background: rgba(255,255,255,0.02);
-    }
-    .pay-toggle-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .pay-toggle-title {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--sidebar-text);
-    }
-    .pay-toggle-sub {
-      font-size: 0.68rem;
-      color: var(--calc-text-muted);
-    }
+    .pay-toggle-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--sidebar-border); background: rgba(255,255,255,0.02); }
+    .pay-toggle-info { display: flex; flex-direction: column; gap: 2px; }
+    .pay-toggle-title { font-size: 0.82rem; font-weight: 700; color: var(--sidebar-text); }
+    .pay-toggle-sub { font-size: 0.68rem; color: var(--calc-text-muted); }
 
     .modal-overlay { position: fixed; inset: 0; background: var(--overlay-bg); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 1200; display: flex; align-items: center; justify-content: center; padding: 16px; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
     .modal-overlay.active { opacity: 1; pointer-events: auto; }
-    .modal-card { background: var(--modal-bg); border: 1px solid var(--modal-border); border-radius: 16px; padding: 20px; max-width: 360px; width: 100%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); transform: scale(0.95); transition: transform 0.2s ease; box-sizing: border-box; }
+    .modal-card { background: var(--modal-bg); border: 1px solid var(--modal-border); border-radius: 16px; padding: 20px; max-width: 360px; width: 100%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); transform: scale(0.95); transition: transform 0.2s ease; }
     .modal-overlay.active .modal-card { transform: scale(1); }
     .modal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text); }
     .modal-desc { font-size: 0.88rem; color: var(--calc-text-muted); line-height: 1.4; margin-bottom: 20px; }
@@ -980,7 +476,7 @@
     .modal-btn-confirm { background: var(--accent); color: white; }
     .modal-btn-confirm:hover { background: #dc2626; }
 
-    .calendar-wrapper { background: var(--cal-bg); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); border: 1px solid var(--cal-border); border-radius: 20px; box-shadow: var(--cal-shadow); padding: 24px; margin-bottom: 24px; color: var(--cal-day); touch-action: pan-y; transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; max-width: 100%; box-sizing: border-box; }
+    .calendar-wrapper { background: var(--cal-bg); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); border: 1px solid var(--cal-border); border-radius: 20px; box-shadow: var(--cal-shadow); padding: 24px; margin-bottom: 24px; color: var(--cal-day); touch-action: pan-y; transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; position: relative; overflow: hidden; width: 100%; }
     .calendar-wrapper::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent); pointer-events: none; }
     [data-theme="light"] .calendar-wrapper::before { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent); }
     .calendar-header { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; gap: 10px; position: relative; }
@@ -989,19 +485,18 @@
     .nav-arrow:active { transform: scale(0.88); }
     .month-year-display { font-size: 1.25rem; font-weight: 700; color: var(--cal-month-name); text-align: center; flex: 1; cursor: pointer; user-select: none; padding: 8px 16px; border-radius: 12px; transition: background 0.2s; white-space: nowrap; letter-spacing: -0.01em; }
     .month-year-display:hover { background: var(--cal-day-hover); }
-    .weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 10px; width: 100%; }
-    .weekday { text-align: center; font-weight: 600; font-size: 0.75rem; color: var(--cal-weekday); text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 0; }
+    .weekdays { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; margin-bottom: 10px; width: 100%; }
+    .weekday { text-align: center; font-weight: 600; font-size: 0.75rem; color: var(--cal-weekday); text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .weekday:nth-child(6), .weekday:nth-child(7) { color: var(--cal-weekend); }
-    .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; width: 100%; }
-    .day-cell { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: var(--cal-cell-radius); border: 1px solid var(--cal-cell-border); cursor: pointer; user-select: none; -webkit-user-select: none; padding: 4px 2px; transition: background 0.2s ease, color 0.2s ease, box-shadow 0.25s ease, transform 0.15s ease, border-color 0.2s ease; color: var(--cal-day); position: relative; background: var(--cal-cell-bg); box-shadow: var(--cal-cell-shadow); }
-    .day-number { font-weight: 500; font-size: 0.95rem; z-index: 2; pointer-events: none; }
-    .day-hours { font-size: 0.68rem; color: var(--cal-day-hours); font-weight: 600; margin-top: 2px; white-space: nowrap; z-index: 2; pointer-events: none; }
+    .days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; width: 100%; }
+    .day-cell { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: var(--cal-cell-radius); border: 1px solid var(--cal-cell-border); cursor: pointer; user-select: none; -webkit-user-select: none; padding: 4px 2px; transition: background 0.2s ease, color 0.2s ease, box-shadow 0.25s ease, transform 0.15s ease, border-color 0.2s ease; color: var(--cal-day); position: relative; background: var(--cal-cell-bg); box-shadow: var(--cal-cell-shadow); min-width: 0; overflow: hidden; }
+    .day-number { font-weight: 500; font-size: 0.95rem; z-index: 2; pointer-events: none; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .day-hours { font-size: 0.68rem; color: var(--cal-day-hours); font-weight: 600; margin-top: 2px; white-space: nowrap; z-index: 2; pointer-events: none; max-width: 100%; overflow: hidden; text-overflow: ellipsis; text-align: center; padding: 0 1px; }
     .day-cell.has-comment::before { content: ''; position: absolute; top: 3px; right: 3px; width: 6px; height: 6px; border-radius: 50%; background: var(--primary); z-index: 3; pointer-events: none; }
     .day-cell.holiday:not(.other-month)::after { content: ''; position: absolute; inset: 3px; border: 1px dashed var(--cal-holiday-dashed); border-radius: 8px; pointer-events: none; z-index: 1; }
-    .cell-hours-input { display: none; position: absolute; inset: 2px; border: 2px solid var(--primary); border-radius: 8px; text-align: center; font-size: 0.85rem; font-weight: 700; background: var(--cal-input-bg); color: var(--cal-input-text); box-sizing: border-box; padding: 0; z-index: 10; outline: none; -moz-appearance: textfield; }
+    .cell-hours-input { position: absolute; inset: 2px; border: 2px solid var(--primary); border-radius: 8px; text-align: center; font-size: 0.85rem; font-weight: 700; background: var(--cal-input-bg); color: var(--cal-input-text); z-index: 10; outline: none; -moz-appearance: textfield; }
     .cell-hours-input::-webkit-outer-spin-button, .cell-hours-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
     .cell-hours-input::placeholder { color: var(--cal-input-placeholder); font-size: 0.7rem; font-weight: 400; }
-    .day-cell.editing .cell-hours-input { display: block; }
     .day-cell.weekend { color: var(--cal-weekend); }
     .day-cell.weekend .day-number, .day-cell.weekend .day-hours { color: var(--cal-weekend); }
     .day-cell.other-month { color: var(--cal-other-month); cursor: default; background: transparent; box-shadow: none; border-color: transparent; }
@@ -1054,7 +549,7 @@
 
     .sheet-overlay { position: fixed; inset: 0; background: var(--overlay-bg); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
     .sheet-overlay.active { opacity: 1; pointer-events: auto; }
-    .bottom-sheet { position: fixed; left: 0; right: 0; bottom: 0; max-width: 500px; margin: 0 auto; background: var(--popover-bg); border-top: 1px solid var(--popover-border); border-radius: 20px 20px 0 0; padding: 12px 16px calc(16px + env(safe-area-inset-bottom)); box-shadow: var(--popover-shadow); z-index: 1001; transform: translateY(100%); transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1); box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; }
+    .bottom-sheet { position: fixed; left: 0; right: 0; bottom: 0; max-width: 500px; margin: 0 auto; background: var(--popover-bg); border-top: 1px solid var(--popover-border); border-radius: 20px 20px 0 0; padding: 12px 16px calc(16px + env(safe-area-inset-bottom)); box-shadow: var(--popover-shadow); z-index: 1001; transform: translateY(100%); transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1); display: flex; flex-direction: column; gap: 12px; }
     .sheet-overlay.active .bottom-sheet { transform: translateY(0); }
     .sheet-handle { width: 36px; height: 4px; background: var(--muted); border-radius: 2px; margin: 0 auto 4px; opacity: 0.5; }
     .sheet-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
@@ -1062,12 +557,12 @@
     .sheet-close-btn { background: transparent; border: none; color: var(--muted); font-size: 1.2rem; cursor: pointer; padding: 4px; line-height: 1; border-radius: 6px; }
     .sheet-close-btn:hover { color: var(--text); }
     .quick-hours-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-    .quick-btn { border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.06); color: var(--text); font-weight: 700; font-size: 0.9rem; padding: 10px 0; border-radius: 12px; cursor: pointer; transition: background 0.15s, transform 0.1s, border-color 0.15s; display: flex; align-items: center; justify-content: center; min-height: 44px; box-sizing: border-box; }
+    .quick-btn { border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.06); color: var(--text); font-weight: 700; font-size: 0.9rem; padding: 10px 0; border-radius: 12px; cursor: pointer; transition: background 0.15s, transform 0.1s, border-color 0.15s; display: flex; align-items: center; justify-content: center; min-height: 44px; }
     [data-theme="light"] .quick-btn { background: rgba(0, 0, 0, 0.04); border-color: rgba(0, 0, 0, 0.08); }
     .quick-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
     .quick-btn:active { transform: scale(0.95); }
     .sheet-actions-list { display: flex; flex-direction: column; gap: 8px; }
-    .sheet-action-btn { width: 100%; min-height: 42px; padding: 10px 14px; border-radius: 10px; font-size: 0.88rem; font-weight: 600; border: 1px solid var(--popover-border); background: var(--calc-card-bg); color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.15s, transform 0.1s; box-sizing: border-box; }
+    .sheet-action-btn { width: 100%; min-height: 42px; padding: 10px 14px; border-radius: 10px; font-size: 0.88rem; font-weight: 600; border: 1px solid var(--popover-border); background: var(--calc-card-bg); color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.15s, transform 0.1s; }
     .sheet-action-btn:active { transform: scale(0.98); }
     .sheet-action-btn.btn-edit { color: var(--primary); border-color: rgba(99, 102, 241, 0.3); }
     .sheet-action-btn.btn-delete { color: var(--accent); border-color: rgba(239, 68, 68, 0.3); }
@@ -1076,7 +571,7 @@
     .comment-display { font-size: 0.82rem; color: var(--text); padding: 10px 12px; background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 10px; word-break: break-word; line-height: 1.4; max-height: 80px; overflow-y: auto; }
     .comment-section { display: none; flex-direction: column; gap: 8px; }
     .comment-section.visible { display: flex; }
-    .comment-input { width: 100%; min-height: 70px; padding: 10px 12px; border: 1px solid var(--popover-border); border-radius: 10px; background: var(--cal-input-bg); color: var(--cal-input-text); font-size: 0.88rem; font-family: inherit; resize: none; outline: none; box-sizing: border-box; transition: border-color 0.2s; }
+    .comment-input { width: 100%; min-height: 70px; padding: 10px 12px; border: 1px solid var(--popover-border); border-radius: 10px; background: var(--cal-input-bg); color: var(--cal-input-text); font-size: 0.88rem; font-family: inherit; resize: none; outline: none; transition: border-color 0.2s; }
     .comment-input:focus { border-color: var(--primary); }
     .comment-input::placeholder { color: var(--cal-input-placeholder); }
     .comment-actions { display: flex; gap: 8px; }
@@ -1097,16 +592,16 @@
     }
 
     .summary-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
-    .summary-card { border-radius: 14px; padding: 8px 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: flex; flex-direction: row; align-items: center; justify-content: space-between; height: 48px; box-sizing: border-box; gap: 8px; min-width: 0; position: relative; }
+    .summary-card { border-radius: 14px; padding: 8px 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: flex; flex-direction: row; align-items: center; justify-content: space-between; height: 48px; gap: 8px; min-width: 0; }
     .summary-card .summary-label { font-size: 0.78rem; opacity: 0.9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
     .summary-card .summary-value { font-size: 1.05rem; font-weight: 800; white-space: nowrap; min-width: 0; }
     .hours-card { background: linear-gradient(135deg, rgba(34,197,94,0.9), rgba(16,185,129,0.9)); color: white; border: 1px solid rgba(34,197,94,0.3); }
     .pay-card-main { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; }
     .calc-section { background: var(--calc-bg); backdrop-filter: blur(12px) saturate(130%); -webkit-backdrop-filter: blur(12px) saturate(130%); border: 1px solid var(--calc-border); border-radius: 16px; box-shadow: var(--calc-shadow); color: var(--calc-text); margin-bottom: 24px; overflow: hidden; transition: background 0.3s ease, border-color 0.4s ease, box-shadow 0.4s ease, color 0.3s ease; }
-    .calc-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; cursor: pointer; user-select: none; background: var(--calc-header-bg); border-bottom: 1px solid var(--calc-border); transition: background 0.3s ease, border-color 0.3s ease; }
-    .calc-header h2 { margin: 0; font-size: 1rem; font-weight: 600; color: var(--calc-header-text); transition: color 0.3s ease; }
-    .toggle-btn { background: var(--toggle-bg); color: white; border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; transition: box-shadow 0.25s ease; box-shadow: var(--toggle-shadow); flex-shrink: 0; line-height: 1; padding: 0; }
-    .toggle-btn:hover { transform: scale(1.05); box-shadow: 0 6px 16px rgba(79,70,229,0.45); }
+    .calc-header { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; cursor: pointer; user-select: none; background: var(--calc-header-bg); border-bottom: 1px solid var(--calc-border); }
+    .calc-header h2 { margin: 0; font-size: 1rem; font-weight: 600; color: var(--calc-header-text); }
+    .toggle-btn { background: var(--toggle-bg); color: white; border: none; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: var(--toggle-shadow); flex-shrink: 0; padding: 0; }
+    .toggle-btn:hover { transform: scale(1.05); }
     .calc-content { padding: 12px 16px; transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease; max-height: 1400px; opacity: 1; }
     .calc-section.collapsed .calc-content { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; overflow: hidden; }
     .mode-toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; padding: 8px 12px; background: var(--calc-card-bg); border: 1px solid var(--calc-border); border-radius: 8px; }
@@ -1115,50 +610,49 @@
     .mode-btn { border: none; background: transparent; color: var(--calc-text-muted); font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; cursor: pointer; transition: background 0.2s, color 0.2s; }
     .mode-btn.active { background: var(--primary); color: #ffffff; }
     .rate-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-    .rate-card { background: var(--calc-card-bg); border: 1px solid var(--calc-border); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; min-width: 0; transition: background 0.3s ease, border-color 0.3s ease; }
+    .rate-card { background: var(--calc-card-bg); border: 1px solid var(--calc-border); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
     .rate-card-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; min-width: 0; }
-    .rate-badge { padding: 3px 10px; border-radius: 20px; font-weight: 700; font-size: 0.82rem; white-space: nowrap; flex-shrink: 0; transition: background 0.3s ease, border-color 0.3s ease; }
+    .rate-badge { padding: 3px 10px; border-radius: 20px; font-weight: 700; font-size: 0.82rem; white-space: nowrap; flex-shrink: 0; }
     .badge-15 { background: var(--calc-badge-15-bg); color: var(--primary); border: 1px solid var(--calc-badge-15-border); }
     .badge-20 { background: var(--calc-badge-20-bg); color: var(--accent); border: 1px solid var(--calc-badge-20-border); }
-    .rate-sum-inline { font-size: 0.78rem; color: var(--calc-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; transition: color 0.3s ease; }
-    .rate-sum-inline strong { color: var(--calc-text-strong); font-weight: 700; transition: color 0.3s ease; }
+    .rate-sum-inline { font-size: 0.78rem; color: var(--calc-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+    .rate-sum-inline strong { color: var(--calc-text-strong); font-weight: 700; }
     .rate-acc { display: flex; align-items: center; justify-content: space-between; gap: 6px; min-width: 0; }
-    .rate-acc-info { display: flex; align-items: center; gap: 6px; background: var(--calc-acc-bg); border: 1px solid var(--calc-acc-border); border-radius: 6px; padding: 5px 10px; flex: 1; min-width: 0; transition: background 0.3s ease, border-color 0.3s ease; }
-    .rate-acc-info-red { background: var(--calc-acc-bg-red); border: 1px solid var(--calc-acc-border-red); }
-    .rate-acc-label { font-size: 0.72rem; color: var(--calc-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; transition: color 0.3s ease; }
+    .rate-acc-info { display: flex; align-items: center; gap: 6px; background: var(--calc-acc-bg); border: 1px solid var(--calc-acc-border); border-radius: 6px; padding: 5px 10px; flex: 1; min-width: 0; }
+    .rate-acc-info-red { background: var(--calc-acc-bg-red); border: 1px solid var(--calc-acc-border); border-radius: 6px; padding: 5px 10px; flex: 1; min-width: 0; }
+    .rate-acc-label { font-size: 0.72rem; color: var(--calc-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
     .rate-acc-value { font-size: 0.85rem; font-weight: 700; color: var(--primary); white-space: nowrap; flex-shrink: 0; }
     .rate-acc-value-red { color: var(--accent); }
-    .btn-clear-acc { background: var(--calc-clear-btn-bg); border: 1px solid var(--calc-clear-btn-border); color: var(--calc-clear-btn-text); border-radius: 6px; width: 32px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.1s; padding: 0; font-size: 0.9rem; font-weight: 700; }
+    .btn-clear-acc { background: var(--calc-clear-btn-bg); border: 1px solid var(--calc-clear-btn-border); color: var(--calc-clear-btn-text); border-radius: 6px; width: 32px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; font-size: 0.9rem; font-weight: 700; }
     .btn-clear-acc:hover { background: var(--calc-clear-btn-hover-bg); color: var(--calc-clear-btn-hover-text); border-color: var(--calc-clear-btn-hover-border); }
     .btn-clear-acc:active { transform: scale(0.92); }
-    .input-with-ok { display: flex; gap: 8px; transition: opacity 0.2s; }
+    .input-with-ok { display: flex; gap: 8px; }
     .input-disabled { opacity: 0.4; pointer-events: none; }
-    .rate-input { width: 100%; padding: 7px 6px; border: 2px solid var(--calc-input-border); border-radius: 6px; font-size: 0.88rem; box-sizing: border-box; text-align: center; background: var(--calc-input-bg); color: var(--calc-input-text); transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.2s ease; }
+    .rate-input { width: 100%; padding: 7px 6px; border: 2px solid var(--calc-input-border); border-radius: 6px; font-size: 0.88rem; text-align: center; background: var(--calc-input-bg); color: var(--calc-input-text); }
     .rate-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 12px var(--input-focus-glow); }
     .rate-input::placeholder { color: var(--calc-input-placeholder); font-size: 0.8rem; }
-    .btn-ok { background: var(--primary); color: white; border: none; border-radius: 6px; width: 38px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background 0.15s, transform 0.1s; padding: 0; font-size: 1.1rem; font-weight: 700; line-height: 1; }
+    .btn-ok { background: var(--primary); color: white; border: none; border-radius: 6px; width: 38px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; font-size: 1.1rem; font-weight: 700; }
     .btn-ok:hover { background: #4f46e5; }
     .btn-ok:active { transform: scale(0.94); }
     .calc-grid-top, .calc-grid-bottom { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin-bottom: 8px; }
-    .calc-item { background: var(--calc-card-bg); border: 1px solid var(--calc-border); border-radius: 8px; padding: 8px 12px; min-width: 0; transition: background 0.3s ease, border-color 0.3s ease; }
-    .calc-item .label { font-size: 0.7rem; color: var(--calc-text-muted); margin-bottom: 3px; display: block; transition: color 0.3s ease; }
-    .calc-item .value { font-size: 0.95rem; font-weight: 700; color: var(--calc-text-strong); transition: color 0.3s ease; }
+    .calc-item { background: var(--calc-card-bg); border: 1px solid var(--calc-border); border-radius: 8px; padding: 8px 12px; min-width: 0; }
+    .calc-item .label { font-size: 0.7rem; color: var(--calc-text-muted); margin-bottom: 3px; display: block; }
+    .calc-item .value { font-size: 0.95rem; font-weight: 700; color: var(--calc-text-strong); }
     .calc-item-editable { display: flex; flex-direction: column; gap: 4px; }
     .calc-item-editable .label-row { display: flex; align-items: center; gap: 6px; }
-    .calc-item-editable .label { font-size: 0.7rem; color: var(--calc-text-muted); display: block; }
     .save-status { font-size: 0.65rem; color: var(--success); font-weight: 700; opacity: 0; transition: opacity 0.3s ease; white-space: nowrap; }
     .save-status.visible { opacity: 0.9; }
     .salary-input-row { display: flex; gap: 6px; align-items: center; }
     .salary-input-wrap { position: relative; flex: 1; min-width: 0; }
-    .salary-input { width: 100%; height: 36px; padding: 0 28px 0 6px; border: 2px solid var(--calc-input-border); border-radius: 6px; font-size: 0.85rem; box-sizing: border-box; text-align: center; font-weight: 700; color: var(--calc-input-text); background: var(--calc-input-bg); transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.2s ease; }
+    .salary-input { width: 100%; height: 36px; padding: 0 28px 0 6px; border: 2px solid var(--calc-input-border); border-radius: 6px; font-size: 0.85rem; text-align: center; font-weight: 700; color: var(--calc-input-text); background: var(--calc-input-bg); }
     .salary-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 12px var(--input-focus-glow); }
     .salary-input.saved { border-color: var(--success); }
-    .salary-unit { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 0.85rem; font-weight: 700; color: var(--calc-unit-color); pointer-events: none; user-select: none; transition: color 0.3s ease; }
-    .btn-save-salary { background: var(--calc-save-ok-bg); color: white; border: none; border-radius: 6px; width: 38px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background 0.15s, transform 0.1s; padding: 0; font-size: 1.1rem; font-weight: 700; line-height: 1; }
+    .salary-unit { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 0.85rem; font-weight: 700; color: var(--calc-unit-color); pointer-events: none; user-select: none; }
+    .btn-save-salary { background: var(--calc-save-ok-bg); color: white; border: none; border-radius: 6px; width: 38px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; font-size: 1.1rem; font-weight: 700; }
     .btn-save-salary:hover { background: var(--calc-save-ok-hover); }
     .btn-save-salary:active { transform: scale(0.94); }
 
-    .ndfl-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; padding: 10px 12px; background: var(--calc-card-bg); border: 1px solid var(--calc-border); border-radius: 8px; transition: background 0.3s ease, border-color 0.3s ease; }
+    .ndfl-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; padding: 10px 12px; background: var(--calc-card-bg); border: 1px solid var(--calc-border); border-radius: 8px; }
     .ndfl-row-label { font-size: 0.82rem; font-weight: 600; color: var(--calc-text); white-space: nowrap; }
     .ndfl-row-label .ndfl-hint { font-size: 0.68rem; font-weight: 400; color: var(--calc-text-muted); margin-left: 4px; }
     .ndfl-switch { position: relative; width: 42px; height: 24px; flex-shrink: 0; }
@@ -1167,25 +661,19 @@
     .ndfl-slider::before { content: ''; position: absolute; width: 20px; height: 20px; left: 2px; top: 2px; background: white; border-radius: 50%; transition: transform 0.2s ease; }
     .ndfl-switch input:checked + .ndfl-slider { background: var(--primary); }
     .ndfl-switch input:checked + .ndfl-slider::before { transform: translateX(18px); }
-    .ndfl-hint-text { font-size: 0.68rem; color: var(--calc-text-muted); margin-top: 6px; padding-left: 12px; line-height: 1.4; transition: color 0.3s ease; }
+    .ndfl-hint-text { font-size: 0.68rem; color: var(--calc-text-muted); margin-top: 6px; padding-left: 12px; line-height: 1.4; }
     .ndfl-results { display: none; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 8px; }
     .ndfl-results.visible { display: grid; }
-    .ndfl-result { background: var(--calc-card-bg); border: 1px solid var(--calc-border); border-radius: 8px; padding: 8px 12px; min-width: 0; transition: background 0.3s ease, border-color 0.3s ease; }
-    .ndfl-result .label { font-size: 0.68rem; color: var(--calc-text-muted); margin-bottom: 3px; display: block; transition: color 0.3s ease; }
-    .ndfl-result .value { font-size: 0.92rem; font-weight: 700; color: var(--calc-text-strong); transition: color 0.3s ease; }
+    .ndfl-result { background: var(--calc-card-bg); border: 1px solid var(--calc-border); border-radius: 8px; padding: 8px 12px; min-width: 0; }
+    .ndfl-result .label { font-size: 0.68rem; color: var(--calc-text-muted); margin-bottom: 3px; display: block; }
+    .ndfl-result .value { font-size: 0.92rem; font-weight: 700; color: var(--calc-text-strong); }
     .ndfl-result.gross .value { color: var(--accent); }
     .ndfl-result.net .value { color: var(--ndfl-net-color); }
     .ndfl-result.tax .value { color: var(--calc-text-muted); }
 
     @media (max-width: 768px) {
-      input[type="text"],
-      input[type="number"],
-      select,
-      textarea {
-        font-size: 16px !important;
-      }
+      input[type="text"], input[type="number"], select, textarea { font-size: 16px !important; }
     }
-
     @media (max-width: 480px) {
       body { padding: 14px; padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); padding-top: max(14px, env(safe-area-inset-top)); padding-bottom: max(14px, env(safe-area-inset-bottom)); }
       .calendar-wrapper { padding: 16px; border-radius: 16px; }
@@ -1256,18 +744,18 @@
     </div>
   </div>
 
-  <div class="absence-page" id="absence-page">
-    <div class="absence-page-header">
+  <div class="subpage" id="absence-page">
+    <div class="subpage-header">
       <button class="icon-btn" onclick="closeAbsencePage()" aria-label="Назад" title="Назад">
         <svg class="icon-chevron left" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
       </button>
-      <span class="absence-page-title">Пропуски и отгулы</span>
+      <span class="subpage-title">Пропуски и отгулы</span>
     </div>
-    <div class="absence-page-content">
+    <div class="subpage-content">
       <div class="stats-selector-box">
         <div class="stats-selector-title">Выбрать месяц</div>
         <div class="stats-years-chips" id="absence-years-chips"></div>
-        <div class="stats-month-trigger" id="absence-month-trigger" onclick="toggleAbsenceMonthDropdown()">
+        <div class="stats-month-trigger" id="absence-month-trigger" onclick="toggleGenericDropdown('absence', buildAbsenceMonthSelectors)">
           <span id="absence-month-trigger-label">—</span>
           <svg class="stats-month-trigger-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </div>
@@ -1314,18 +802,18 @@
     </div>
   </div>
 
-  <div class="pay-page" id="pay-page">
-    <div class="pay-page-header">
+  <div class="subpage" id="pay-page">
+    <div class="subpage-header">
       <button class="icon-btn" onclick="closePayPage()" aria-label="Назад" title="Назад">
         <svg class="icon-chevron left" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
       </button>
-      <span class="pay-page-title">Выплаты (Аванс и З/П)</span>
+      <span class="subpage-title">Выплаты (Аванс и З/П)</span>
     </div>
-    <div class="pay-page-content">
+    <div class="subpage-content">
       <div class="stats-selector-box">
         <div class="stats-selector-title">Месяц расчета выплат</div>
         <div class="stats-years-chips" id="pay-years-chips"></div>
-        <div class="stats-month-trigger" id="pay-month-trigger" onclick="togglePayMonthDropdown()">
+        <div class="stats-month-trigger" id="pay-month-trigger" onclick="toggleGenericDropdown('pay', buildPayMonthSelectors)">
           <span id="pay-month-trigger-label">—</span>
           <svg class="stats-month-trigger-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </div>
@@ -1402,9 +890,7 @@
       <div class="pay-cards-container">
         <div class="pay-card advance">
           <div class="pay-card-head">
-            <div class="pay-card-tag">
-              <span>💳 Аванс (1-я половина)</span>
-            </div>
+            <div class="pay-card-tag"><span>💳 Аванс (1-я половина)</span></div>
             <span class="pay-date-pill" id="pay-advance-date-badge">20 числа</span>
           </div>
           <div class="pay-card-sum-wrap">
@@ -1418,7 +904,7 @@
             </div>
             <div class="pay-receipt-row deduction" id="pay-slip-adv-absence-row" style="display:none;">
               <span id="pay-slip-adv-absence-label">Пропуски (0 дн.)</span>
-              <strong id="pay-slip-adv-absence-val" style="color:var(--accent);">-0 ₽</strong>
+              <strong id="pay-slip-adv-absence-val">-0 ₽</strong>
             </div>
             <div class="pay-receipt-row" id="pay-slip-adv-stimul-row">
               <span>Стимулирующие (20 числа)</span>
@@ -1445,9 +931,7 @@
 
         <div class="pay-card salary">
           <div class="pay-card-head">
-            <div class="pay-card-tag">
-              <span>💰 Зарплата (2-я половина)</span>
-            </div>
+            <div class="pay-card-tag"><span>💰 Зарплата (2-я половина)</span></div>
             <span class="pay-date-pill" id="pay-salary-date-badge">5 числа</span>
           </div>
           <div class="pay-card-sum-wrap">
@@ -1461,7 +945,7 @@
             </div>
             <div class="pay-receipt-row deduction" id="pay-slip-sal-absence-row" style="display:none;">
               <span id="pay-slip-sal-absence-label">Пропуски (0 дн.)</span>
-              <strong id="pay-slip-sal-absence-val" style="color:var(--accent);">-0 ₽</strong>
+              <strong id="pay-slip-sal-absence-val">-0 ₽</strong>
             </div>
             <div class="pay-receipt-row" id="pay-slip-sal-ot-row">
               <span id="pay-slip-sal-ot-label">Переработки</span>
@@ -1496,14 +980,14 @@
           <div class="pay-setting-row">
             <label class="pay-setting-label">Стимулирующие (20 числа, руб.)</label>
             <div class="pay-input-with-btn">
-              <input type="number" class="pay-num-input" id="pay-stimul-input" placeholder="0" min="0" step="100" value="" onkeydown="if(event.key==='Enter'){event.preventDefault(); confirmPayStimul();}" />
+              <input type="number" class="pay-num-input" id="pay-stimul-input" placeholder="0" min="0" step="100" onkeydown="if(event.key==='Enter'){event.preventDefault(); confirmPayStimul();}" />
               <button type="button" class="btn-save-pay-item" onclick="confirmPayStimul()" aria-label="Сохранить стимулирующие" title="Сохранить">✓</button>
             </div>
           </div>
           <div class="pay-setting-row">
             <label class="pay-setting-label">Премия (доплата, руб.)</label>
             <div class="pay-input-with-btn">
-              <input type="number" class="pay-num-input" id="pay-bonus-input" placeholder="0" min="0" step="100" value="" onkeydown="if(event.key==='Enter'){event.preventDefault(); confirmPayBonus();}" />
+              <input type="number" class="pay-num-input" id="pay-bonus-input" placeholder="0" min="0" step="100" onkeydown="if(event.key==='Enter'){event.preventDefault(); confirmPayBonus();}" />
               <button type="button" class="btn-save-pay-item" onclick="confirmPayBonus()" aria-label="Сохранить премию" title="Сохранить">✓</button>
             </div>
           </div>
@@ -1523,11 +1007,11 @@
         <div class="pay-settings-grid">
           <div class="pay-setting-row">
             <label class="pay-setting-label">Доп. к авансу на руки (руб.)</label>
-            <input type="number" class="pay-num-input" id="pay-actual-advance-input" placeholder="0" min="0" step="100" value="" onchange="saveCurrentMonthPayData()" />
+            <input type="number" class="pay-num-input" id="pay-actual-advance-input" placeholder="0" min="0" step="100" onchange="saveCurrentMonthPayData()" />
           </div>
           <div class="pay-setting-row">
             <label class="pay-setting-label">Доп. к З/П на руки (руб.)</label>
-            <input type="number" class="pay-num-input" id="pay-actual-salary-input" placeholder="0" min="0" step="100" value="" onchange="saveCurrentMonthPayData()" />
+            <input type="number" class="pay-num-input" id="pay-actual-salary-input" placeholder="0" min="0" step="100" onchange="saveCurrentMonthPayData()" />
           </div>
         </div>
       </div>
@@ -1604,9 +1088,7 @@
 
       <div class="pay-accordion collapsed" id="pay-settings-accordion">
         <div class="pay-collapse-header" onclick="togglePaySettings()">
-          <div class="pay-collapse-title">
-            <span>⚙️ Правила и даты выплат</span>
-          </div>
+          <div class="pay-collapse-title"><span>⚙️ Правила и даты выплат</span></div>
           <svg class="icon-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </div>
         <div class="pay-collapse-body">
@@ -1675,18 +1157,18 @@
     </div>
   </div>
 
-  <div class="stats-page" id="stats-page">
-    <div class="stats-page-header">
+  <div class="subpage" id="stats-page">
+    <div class="subpage-header">
       <button class="icon-btn" onclick="closeStatsPage()" aria-label="Назад" title="Назад">
         <svg class="icon-chevron left" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
       </button>
-      <span class="stats-page-title">Статистика по месяцам</span>
+      <span class="subpage-title">Статистика по месяцам</span>
     </div>
-    <div class="stats-page-content">
+    <div class="subpage-content">
       <div class="stats-selector-box">
         <div class="stats-selector-title">Выбрать месяц</div>
         <div class="stats-years-chips" id="stats-years-chips"></div>
-        <div class="stats-month-trigger" id="stats-month-trigger" onclick="toggleStatsMonthDropdown()">
+        <div class="stats-month-trigger" id="stats-month-trigger" onclick="toggleGenericDropdown('stats', buildStatsSelectors)">
           <span id="stats-month-trigger-label">—</span>
           <svg class="stats-month-trigger-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </div>
@@ -1712,14 +1194,14 @@
     </div>
   </div>
 
-  <div class="notes-page" id="notes-page">
-    <div class="notes-page-header">
+  <div class="subpage" id="notes-page">
+    <div class="subpage-header">
       <button class="icon-btn" onclick="closeNotesPage()" aria-label="Назад" title="Назад">
         <svg class="icon-chevron left" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
       </button>
-      <span class="notes-page-title">Заметки и напоминания</span>
+      <span class="subpage-title">Заметки и напоминания</span>
     </div>
-    <div class="notes-page-content">
+    <div class="subpage-content">
       <div class="notes-add-box">
         <textarea id="note-page-text" placeholder="Напишите заметку или напоминание..."></textarea>
         <button class="notes-add-btn" onclick="addNoteFromPage()">Добавить</button>
@@ -1806,7 +1288,7 @@
               <button class="btn-clear-acc" id="clear-15-btn" onclick="clearAcc15()" aria-label="Стереть часы ×1.5" title="Стереть часы">✕</button>
             </div>
             <div class="input-with-ok" id="input-group-15">
-              <input type="number" class="rate-input" id="ot-15" placeholder="Добавить часы" min="0" step="0.5" value="" />
+              <input type="number" class="rate-input" id="ot-15" placeholder="Добавить часы" min="0" step="0.5" />
               <button class="btn-ok" onclick="add15()" aria-label="Добавить часы ×1.5" title="Добавить часы">✓</button>
             </div>
           </div>
@@ -1820,7 +1302,7 @@
               <button class="btn-clear-acc" id="clear-2-btn" onclick="clearAcc2()" aria-label="Стереть часы ×2" title="Стереть часы">✕</button>
             </div>
             <div class="input-with-ok" id="input-group-2">
-              <input type="number" class="rate-input" id="ot-2" placeholder="Добавить часы" min="0" step="0.5" value="" />
+              <input type="number" class="rate-input" id="ot-2" placeholder="Добавить часы" min="0" step="0.5" />
               <button class="btn-ok" onclick="add2()" aria-label="Добавить часы ×2" title="Добавить часы">✓</button>
             </div>
           </div>
@@ -1859,9 +1341,7 @@
   <script>
     function haptic(ms) {
       try {
-        if (typeof navigator !== 'undefined' && navigator.vibrate) {
-          navigator.vibrate(ms || 10);
-        }
+        if (typeof navigator !== 'undefined' && navigator.vibrate) navigator.vibrate(ms || 10);
       } catch (e) {}
     }
 
@@ -1884,17 +1364,15 @@
     var MONTH_NAMES_SHORT = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
     var WEEKDAY_NAMES = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
 
+    var STD_HOLIDAYS = {
+      '1-1':1,'1-2':1,'1-3':1,'1-4':1,'1-5':1,'1-6':1,'1-7':1,'1-8':1,
+      '2-23':1,'3-8':1,'5-1':1,'5-9':1,'6-12':1,'11-4':1
+    };
+
     function isHoliday(y, m, d) {
       var key = m + '-' + d;
-      var stdHolidays = {
-        '1-1':true,'1-2':true,'1-3':true,'1-4':true,'1-5':true,'1-6':true,'1-7':true,'1-8':true,
-        '2-23':true,'3-8':true,'5-1':true,'5-9':true,'6-12':true,'11-4':true
-      };
-      if (stdHolidays[key]) return true;
-
-      if (y === 2026) {
-        if (key === '5-11' || key === '2-24' || key === '3-9') return true;
-      }
+      if (STD_HOLIDAYS[key]) return true;
+      if (y === 2026 && (key === '5-11' || key === '2-24' || key === '3-9')) return true;
       return false;
     }
 
@@ -1906,6 +1384,14 @@
         return true;
       } catch(e) { return false; }
     })();
+
+    function readJson(key, fallback) {
+      if (!storageAvailable) return fallback;
+      try {
+        var data = localStorage.getItem(key);
+        return data ? JSON.parse(data) : fallback;
+      } catch(e) { return fallback; }
+    }
 
     var currentDate = new Date();
     if(storageAvailable){
@@ -1925,38 +1411,11 @@
       }
     }
 
-    var overtimeData = {};
-    if(storageAvailable){
-      try {
-        var rD = localStorage.getItem(STORAGE_KEY);
-        if(rD){
-          var pD = JSON.parse(rD);
-          if(pD && typeof pD === 'object') overtimeData = pD;
-        }
-      } catch(e){}
-    }
-
-    var monthlyPayData = {};
-    if(storageAvailable){
-      try {
-        var rMP = localStorage.getItem(MONTHLY_PAY_KEY);
-        if(rMP){
-          var pMP = JSON.parse(rMP);
-          if(pMP && typeof pMP === 'object') monthlyPayData = pMP;
-        }
-      } catch(e){}
-    }
-
-    var absenceData = {};
-    if(storageAvailable){
-      try {
-        var rAb = localStorage.getItem(ABSENCE_KEY);
-        if(rAb){
-          var pAb = JSON.parse(rAb);
-          if(pAb && typeof pAb === 'object') absenceData = pAb;
-        }
-      } catch(e){}
-    }
+    var overtimeData = readJson(STORAGE_KEY, {});
+    var monthlyPayData = readJson(MONTHLY_PAY_KEY, {});
+    var absenceData = readJson(ABSENCE_KEY, {});
+    var dayComments = readJson(COMMENTS_KEY, {});
+    var userNotes = readJson(NOTES_KEY, []);
 
     function getSalaryForMonth(y, m) {
       var k = y + '-' + m;
@@ -1964,22 +1423,6 @@
         return monthlyPayData[k].salary;
       }
       return SALARY;
-    }
-
-    var dayComments = {};
-    if(storageAvailable){
-      try {
-        var rCm = localStorage.getItem(COMMENTS_KEY);
-        if(rCm) dayComments = JSON.parse(rCm) || {};
-      } catch(e){}
-    }
-
-    var userNotes = [];
-    if(storageAvailable){
-      try {
-        var rN = localStorage.getItem(NOTES_KEY);
-        if(rN) userNotes = JSON.parse(rN) || [];
-      } catch(e){}
     }
 
     var ndflEnabled = true;
@@ -1993,37 +1436,20 @@
       if(sMo === 'manual' || sMo === 'auto') calcMode = sMo;
     }
 
-    var payrollRules = {
+    var payrollRules = Object.assign({
       otInAdvance: true,
       otInSalary: true,
       advanceDay: 20,
       salaryDay: 5,
       cutoffDay: 15,
       advancePct: 'days'
-    };
-    if(storageAvailable){
-      try {
-        var rPR = localStorage.getItem(PAY_RULES_KEY);
-        if(rPR) {
-          var pPR = JSON.parse(rPR);
-          if(pPR && typeof pPR === 'object') Object.assign(payrollRules, pPR);
-        }
-      } catch(e){}
-    }
+    }, readJson(PAY_RULES_KEY, {}));
 
-    var dailyCollapsed = false;
-    if(storageAvailable){
-      try { dailyCollapsed = localStorage.getItem(DAILY_COLLAPSE_KEY) === '1'; } catch(e){}
-    }
+    var dailyCollapsed = storageAvailable && localStorage.getItem(DAILY_COLLAPSE_KEY) === '1';
 
-    var selectedStatsYear = currentDate.getFullYear();
-    var selectedStatsMonth = currentDate.getMonth();
-
-    var selectedPayYear = currentDate.getFullYear();
-    var selectedPayMonth = currentDate.getMonth();
-
-    var selectedAbsenceYear = currentDate.getFullYear();
-    var selectedAbsenceMonth = currentDate.getMonth();
+    var selectedStatsYear = currentDate.getFullYear(), selectedStatsMonth = currentDate.getMonth();
+    var selectedPayYear = currentDate.getFullYear(), selectedPayMonth = currentDate.getMonth();
+    var selectedAbsenceYear = currentDate.getFullYear(), selectedAbsenceMonth = currentDate.getMonth();
 
     var savedScrollY = 0;
     function lockBodyScroll(){
@@ -2048,15 +1474,14 @@
     function getWorkdaysInMonth(y, m){
       var dc = new Date(y, m, 0).getDate(), wd = 0;
       for(var d = 1; d <= dc; d++){
-        var dO = new Date(y, m - 1, d), dw = dO.getDay(), iw = dw === 0 || dw === 6, ih = isHoliday(y, m, d);
-        if(!iw && !ih) wd++;
+        var dO = new Date(y, m - 1, d), dw = dO.getDay();
+        if(dw !== 0 && dw !== 6 && !isHoliday(y, m, d)) wd++;
       }
       return wd;
     }
 
     function saveToStorage(){
-      if(!storageAvailable) return;
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(overtimeData)); } catch(e){}
+      if(storageAvailable) try { localStorage.setItem(STORAGE_KEY, JSON.stringify(overtimeData)); } catch(e){}
     }
     function saveNotes(){
       if(storageAvailable) try { localStorage.setItem(NOTES_KEY, JSON.stringify(userNotes)); } catch(e){}
@@ -2077,23 +1502,77 @@
     function flashSaveIndicator(el) {
       if (!el) return;
       el.classList.add('saved');
-      setTimeout(function() {
-        el.classList.remove('saved');
-      }, 1500);
+      setTimeout(function() { el.classList.remove('saved'); }, 1500);
     }
 
-    function updateAbsenceMonthTriggerLabel(){
-      var l = document.getElementById('absence-month-trigger-label');
-      if(l) l.textContent = MONTH_NAMES[selectedAbsenceMonth] + ' ' + selectedAbsenceYear;
+    function renderYearChips(containerId, activeYear, dataObj, onSelect) {
+      var yc = document.getElementById(containerId);
+      if (!yc) return;
+      var ym = {}, ks = Object.keys(dataObj);
+      for(var i = 0; i < ks.length; i++){
+        var y = parseInt(ks[i].split('-')[0], 10);
+        if(!isNaN(y)) ym[y] = true;
+      }
+      ym[currentDate.getFullYear()] = true;
+      var years = Object.keys(ym).map(Number).sort(function(a, b){ return b - a; });
+
+      yc.innerHTML = '';
+      years.forEach(function(y){
+        var chip = document.createElement('button');
+        chip.className = 'year-chip' + (y === activeYear ? ' active' : '');
+        chip.textContent = y;
+        chip.onclick = function(){ onSelect(y); };
+        yc.appendChild(chip);
+      });
     }
 
-    function toggleAbsenceMonthDropdown(){
+    function renderMonthOptions(containerId, activeYear, activeMonth, dataObj, onSelect) {
+      var c = document.getElementById(containerId);
+      if (!c) return;
+      var hoursMap = {};
+      if (dataObj) {
+        var ks = Object.keys(dataObj);
+        for(var i = 0; i < ks.length; i++){
+          var p = ks[i].split('-');
+          if(parseInt(p[0], 10) === activeYear){
+            var m = parseInt(p[1], 10);
+            hoursMap[m] = (hoursMap[m] || 0) + (dataObj[ks[i]] || 0);
+          }
+        }
+      }
+      c.innerHTML = '';
+      for(var m = 12; m >= 1; m--){
+        (function(mon){
+          var o = document.createElement('div');
+          o.className = 'stats-month-option' + ((mon - 1) === activeMonth ? ' selected' : '');
+          var ns = document.createElement('span');
+          ns.textContent = MONTH_NAMES[mon - 1];
+          o.appendChild(ns);
+          var h = hoursMap[mon];
+          if(h > 0){
+            var hs = document.createElement('span');
+            hs.className = 'stats-month-option-hours';
+            hs.textContent = h.toFixed(1) + ' ч';
+            o.appendChild(hs);
+          }
+          o.onclick = function(){
+            haptic(10);
+            onSelect(mon - 1);
+          };
+          c.appendChild(o);
+        })(m);
+      }
+    }
+
+    function toggleGenericDropdown(prefix, buildFn) {
       haptic(8);
-      var tr = document.getElementById('absence-month-trigger'), dd = document.getElementById('absence-month-dropdown');
+      var tr = document.getElementById(prefix + '-month-trigger');
+      var dd = document.getElementById(prefix + '-month-dropdown');
+      if(!dd || !tr) return;
       if(dd.classList.contains('open')){
-        closeAbsenceMonthDropdown();
+        closeGenericDropdown(prefix);
       } else {
-        buildAbsenceMonthSelectors();
+        buildFn();
         dd.classList.add('open');
         tr.classList.add('open');
         var s = dd.querySelector('.stats-month-option.selected');
@@ -2101,66 +1580,38 @@
       }
     }
 
-    function closeAbsenceMonthDropdown(){
-      var tr = document.getElementById('absence-month-trigger'), dd = document.getElementById('absence-month-dropdown');
+    function closeGenericDropdown(prefix) {
+      var tr = document.getElementById(prefix + '-month-trigger');
+      var dd = document.getElementById(prefix + '-month-dropdown');
       if(tr) tr.classList.remove('open');
       if(dd) dd.classList.remove('open');
     }
 
-    function buildAbsenceYearChips(){
-      var yc = document.getElementById('absence-years-chips');
-      if(!yc) return;
-      var ym = {}, ks = Object.keys(absenceData);
-      for(var i = 0; i < ks.length; i++){
-        var y = parseInt(ks[i].split('-')[0], 10);
-        if(!isNaN(y)) ym[y] = true;
-      }
-      ym[currentDate.getFullYear()] = true;
-      var years = Object.keys(ym).map(function(y){ return parseInt(y, 10); }).sort(function(a, b){ return b - a; });
+    function updateAbsenceMonthTriggerLabel(){
+      var l = document.getElementById('absence-month-trigger-label');
+      if(l) l.textContent = MONTH_NAMES[selectedAbsenceMonth] + ' ' + selectedAbsenceYear;
+    }
 
-      yc.innerHTML = '';
-      years.forEach(function(y){
-        var chip = document.createElement('button');
-        chip.className = 'year-chip' + (y === selectedAbsenceYear ? ' active' : '');
-        chip.textContent = y;
-        chip.onclick = function(){ selectAbsenceYear(y); };
-        yc.appendChild(chip);
+    function buildAbsenceYearChips(){
+      renderYearChips('absence-years-chips', selectedAbsenceYear, absenceData, function(y){
+        if(selectedAbsenceYear === y) return;
+        haptic(10);
+        selectedAbsenceYear = y;
+        selectedAbsenceMonth = (y === currentDate.getFullYear()) ? currentDate.getMonth() : 11;
+        buildAbsenceYearChips();
+        buildAbsenceMonthSelectors();
+        updateAbsenceMonthTriggerLabel();
+        renderAbsencePage();
       });
     }
 
-    function selectAbsenceYear(y){
-      if(selectedAbsenceYear === y) return;
-      haptic(10);
-      selectedAbsenceYear = y;
-      selectedAbsenceMonth = (y === currentDate.getFullYear()) ? currentDate.getMonth() : 11;
-      buildAbsenceYearChips();
-      buildAbsenceMonthSelectors();
-      updateAbsenceMonthTriggerLabel();
-      renderAbsencePage();
-    }
-
     function buildAbsenceMonthSelectors(){
-      var c = document.getElementById('absence-month-dropdown-options');
-      if(!c) return;
-      c.innerHTML = '';
-      for(var m = 12; m >= 1; m--){
-        (function(mon){
-          var o = document.createElement('div');
-          o.className = 'stats-month-option';
-          if((mon - 1) === selectedAbsenceMonth) o.classList.add('selected');
-          var ns = document.createElement('span');
-          ns.textContent = MONTH_NAMES[mon - 1];
-          o.appendChild(ns);
-          o.onclick = function(){
-            haptic(10);
-            selectedAbsenceMonth = mon - 1;
-            updateAbsenceMonthTriggerLabel();
-            closeAbsenceMonthDropdown();
-            renderAbsencePage();
-          };
-          c.appendChild(o);
-        })(m);
-      }
+      renderMonthOptions('absence-month-dropdown-options', selectedAbsenceYear, selectedAbsenceMonth, null, function(mIdx){
+        selectedAbsenceMonth = mIdx;
+        updateAbsenceMonthTriggerLabel();
+        closeGenericDropdown('absence');
+        renderAbsencePage();
+      });
     }
 
     function openAbsencePage(){
@@ -2175,7 +1626,7 @@
 
     function closeAbsencePage(){
       document.getElementById('absence-page').classList.remove('open');
-      closeAbsenceMonthDropdown();
+      closeGenericDropdown('absence');
     }
 
     function renderAbsencePage() {
@@ -2189,8 +1640,7 @@
       if(daySelect) {
         daySelect.innerHTML = '';
         for(var d = 1; d <= totalDaysInMonth; d++) {
-          var dt = new Date(y, m - 1, d);
-          var dw = dt.getDay();
+          var dt = new Date(y, m - 1, d), dw = dt.getDay();
           var isWd = (dw !== 0 && dw !== 6 && !isHoliday(y, m, d));
           var opt = document.createElement('option');
           opt.value = d;
@@ -2203,14 +1653,11 @@
       var countEl = document.getElementById('absence-summary-count');
       var moneyEl = document.getElementById('absence-summary-money');
 
-      var absentWorkdaysCount = 0;
-      var entries = [];
-
+      var absentWorkdaysCount = 0, entries = [];
       for(var d = 1; d <= totalDaysInMonth; d++) {
         var dk = y + '-' + pad2(m) + '-' + pad2(d);
         if(absenceData[dk]) {
-          var dt = new Date(y, m - 1, d);
-          var dw = dt.getDay();
+          var dt = new Date(y, m - 1, d), dw = dt.getDay();
           var isWd = (dw !== 0 && dw !== 6 && !isHoliday(y, m, d));
           if(isWd) absentWorkdaysCount++;
           entries.push({ day: d, dateKey: dk, isWorkday: isWd, reason: absenceData[dk].reason || 'Отсутствие' });
@@ -2230,8 +1677,7 @@
       }
 
       entries.forEach(function(item) {
-        var dt = new Date(y, m - 1, item.day);
-        var dw = dt.getDay();
+        var dt = new Date(y, m - 1, item.day), dw = dt.getDay();
         var row = document.createElement('div');
         row.className = 'absence-item';
         
@@ -2270,7 +1716,6 @@
 
         right.appendChild(ded);
         right.appendChild(delBtn);
-
         row.appendChild(left);
         row.appendChild(right);
         listContainer.appendChild(row);
@@ -2294,7 +1739,7 @@
 
     function loadPayMonthData() {
       var key = selectedPayYear + '-' + (selectedPayMonth + 1);
-      var data = monthlyPayData[key];
+      var data = monthlyPayData[key] || {};
 
       var stimulEl = document.getElementById('pay-stimul-input');
       var bonusEl = document.getElementById('pay-bonus-input');
@@ -2303,24 +1748,12 @@
       var salInput = document.getElementById('pay-actual-salary-input');
       var paySalInput = document.getElementById('pay-salary-input');
 
-      var curSalary = getSalaryForMonth(selectedPayYear, selectedPayMonth + 1);
-      if (paySalInput) {
-        paySalInput.value = curSalary.toLocaleString('ru-RU');
-      }
-
-      if (data) {
-        if (stimulEl) stimulEl.value = (data.stimul !== undefined && data.stimul !== 0) ? data.stimul : '';
-        if (bonusEl) bonusEl.value = (data.bonus !== undefined && data.bonus !== 0) ? data.bonus : '';
-        if (bonusPayoutEl) bonusPayoutEl.checked = !!data.bonusPayout;
-        if (advInput) advInput.value = (data.actualAdvance !== undefined && data.actualAdvance !== 0) ? data.actualAdvance : '';
-        if (salInput) salInput.value = (data.actualSalary !== undefined && data.actualSalary !== 0) ? data.actualSalary : '';
-      } else {
-        if (stimulEl) stimulEl.value = '';
-        if (bonusEl) bonusEl.value = '';
-        if (bonusPayoutEl) bonusPayoutEl.checked = false;
-        if (advInput) advInput.value = '';
-        if (salInput) salInput.value = '';
-      }
+      if (paySalInput) paySalInput.value = getSalaryForMonth(selectedPayYear, selectedPayMonth + 1).toLocaleString('ru-RU');
+      if (stimulEl) stimulEl.value = (data.stimul) ? data.stimul : '';
+      if (bonusEl) bonusEl.value = (data.bonus) ? data.bonus : '';
+      if (bonusPayoutEl) bonusPayoutEl.checked = !!data.bonusPayout;
+      if (advInput) advInput.value = (data.actualAdvance) ? data.actualAdvance : '';
+      if (salInput) salInput.value = (data.actualSalary) ? data.actualSalary : '';
     }
 
     function saveCurrentMonthPayData() {
@@ -2331,18 +1764,12 @@
       var advInput = document.getElementById('pay-actual-advance-input');
       var salInput = document.getElementById('pay-actual-salary-input');
 
-      var stVal = stimulEl && stimulEl.value !== '' ? parseFloat(stimulEl.value) : 0;
-      var boVal = bonusEl && bonusEl.value !== '' ? parseFloat(bonusEl.value) : 0;
-      var bpVal = bonusPayoutEl ? bonusPayoutEl.checked : false;
-      var aaVal = advInput && advInput.value !== '' ? parseFloat(advInput.value) : 0;
-      var asVal = salInput && salInput.value !== '' ? parseFloat(salInput.value) : 0;
-
       if (!monthlyPayData[key]) monthlyPayData[key] = {};
-      monthlyPayData[key].stimul = stVal;
-      monthlyPayData[key].bonus = boVal;
-      monthlyPayData[key].bonusPayout = bpVal;
-      monthlyPayData[key].actualAdvance = aaVal;
-      monthlyPayData[key].actualSalary = asVal;
+      monthlyPayData[key].stimul = stimulEl && stimulEl.value !== '' ? parseFloat(stimulEl.value) : 0;
+      monthlyPayData[key].bonus = bonusEl && bonusEl.value !== '' ? parseFloat(bonusEl.value) : 0;
+      monthlyPayData[key].bonusPayout = bonusPayoutEl ? bonusPayoutEl.checked : false;
+      monthlyPayData[key].actualAdvance = advInput && advInput.value !== '' ? parseFloat(advInput.value) : 0;
+      monthlyPayData[key].actualSalary = salInput && salInput.value !== '' ? parseFloat(salInput.value) : 0;
 
       if (storageAvailable) {
         try { localStorage.setItem(MONTHLY_PAY_KEY, JSON.stringify(monthlyPayData)); } catch(e){}
@@ -2353,8 +1780,7 @@
     function confirmPaySalary() {
       var el = document.getElementById('pay-salary-input');
       if (!el) return;
-      var cv = el.value.replace(/\s+/g, '').replace(',', '.');
-      var v = parseFloat(cv);
+      var v = parseFloat(el.value.replace(/\s+/g, '').replace(',', '.'));
       if(!isNaN(v) && v >= 0){
         haptic(15);
         var key = selectedPayYear + '-' + (selectedPayMonth + 1);
@@ -2419,101 +1845,28 @@
       if(l) l.textContent = MONTH_NAMES[selectedPayMonth] + ' ' + selectedPayYear;
     }
 
-    function togglePayMonthDropdown(){
-      haptic(8);
-      var tr = document.getElementById('pay-month-trigger'), dd = document.getElementById('pay-month-dropdown');
-      if(dd.classList.contains('open')){
-        closePayMonthDropdown();
-      } else {
-        buildPayMonthSelectors();
-        dd.classList.add('open');
-        tr.classList.add('open');
-        var s = dd.querySelector('.stats-month-option.selected');
-        if(s) setTimeout(function(){ s.scrollIntoView({block: 'nearest'}); }, 30);
-      }
-    }
-    function closePayMonthDropdown(){
-      var tr = document.getElementById('pay-month-trigger'), dd = document.getElementById('pay-month-dropdown');
-      if(tr) tr.classList.remove('open');
-      if(dd) dd.classList.remove('open');
-    }
-
     function buildPayYearChips(){
-      var yc = document.getElementById('pay-years-chips');
-      if(!yc) return;
-      var ym = {}, ks = Object.keys(overtimeData);
-      for(var i = 0; i < ks.length; i++){
-        var y = parseInt(ks[i].split('-')[0], 10);
-        if(!isNaN(y)) ym[y] = true;
-      }
-      ym[currentDate.getFullYear()] = true;
-      var years = Object.keys(ym).map(function(y){ return parseInt(y, 10); }).sort(function(a, b){ return b - a; });
-
-      yc.innerHTML = '';
-      years.forEach(function(y){
-        var chip = document.createElement('button');
-        chip.className = 'year-chip' + (y === selectedPayYear ? ' active' : '');
-        chip.textContent = y;
-        chip.onclick = function(){ selectPayYear(y); };
-        yc.appendChild(chip);
+      renderYearChips('pay-years-chips', selectedPayYear, overtimeData, function(y){
+        if(selectedPayYear === y) return;
+        haptic(10);
+        selectedPayYear = y;
+        selectedPayMonth = (y === currentDate.getFullYear()) ? currentDate.getMonth() : 11;
+        buildPayYearChips();
+        buildPayMonthSelectors();
+        updatePayMonthTriggerLabel();
+        loadPayMonthData();
+        renderPayCalculations();
       });
     }
 
-    function selectPayYear(y){
-      if(selectedPayYear === y) return;
-      haptic(10);
-      selectedPayYear = y;
-      selectedPayMonth = (y === currentDate.getFullYear()) ? currentDate.getMonth() : 11;
-      buildPayYearChips();
-      buildPayMonthSelectors();
-      updatePayMonthTriggerLabel();
-      loadPayMonthData();
-      renderPayCalculations();
-    }
-
     function buildPayMonthSelectors(){
-      var mm = {};
-      for(var m = 1; m <= 12; m++){
-        mm[m] = {year: selectedPayYear, month: m, hours: 0};
-      }
-      var ks = Object.keys(overtimeData);
-      for(var i = 0; i < ks.length; i++){
-        var p = ks[i].split('-'), y = parseInt(p[0], 10), m = parseInt(p[1], 10);
-        if(y === selectedPayYear && mm[m]){
-          var h = overtimeData[ks[i]] || 0;
-          if(h > 0) mm[m].hours += h;
-        }
-      }
-      var c = document.getElementById('pay-month-dropdown-options');
-      if(!c) return;
-      c.innerHTML = '';
-      for(var m = 12; m >= 1; m--){
-        (function(d){
-          var o = document.createElement('div');
-          o.className = 'stats-month-option';
-          o.dataset.year = d.year;
-          o.dataset.month = d.month - 1;
-          if(d.year === selectedPayYear && (d.month - 1) === selectedPayMonth) o.classList.add('selected');
-          var ns = document.createElement('span');
-          ns.textContent = MONTH_NAMES[d.month - 1];
-          o.appendChild(ns);
-          if(d.hours > 0){
-            var hs = document.createElement('span');
-            hs.className = 'stats-month-option-hours';
-            hs.textContent = d.hours.toFixed(1) + ' ч';
-            o.appendChild(hs);
-          }
-          o.onclick = function(){
-            haptic(10);
-            selectedPayMonth = d.month - 1;
-            updatePayMonthTriggerLabel();
-            closePayMonthDropdown();
-            loadPayMonthData();
-            renderPayCalculations();
-          };
-          c.appendChild(o);
-        })(mm[m]);
-      }
+      renderMonthOptions('pay-month-dropdown-options', selectedPayYear, selectedPayMonth, overtimeData, function(mIdx){
+        selectedPayMonth = mIdx;
+        updatePayMonthTriggerLabel();
+        closeGenericDropdown('pay');
+        loadPayMonthData();
+        renderPayCalculations();
+      });
     }
 
     function openPayPage() {
@@ -2543,9 +1896,10 @@
       loadPayMonthData();
       renderPayCalculations();
     }
+
     function closePayPage() {
       document.getElementById('pay-page').classList.remove('open');
-      closePayMonthDropdown();
+      closeGenericDropdown('pay');
     }
 
     function syncNdflUI() {
@@ -2663,8 +2017,7 @@
 
       for(var d = 1; d <= totalDaysInMonth; d++) {
         var dt = new Date(y, m - 1, d), dow = dt.getDay();
-        var isWd = (dow !== 0 && dow !== 6 && !isHoliday(y, m, d));
-        if(isWd) {
+        if(dow !== 0 && dow !== 6 && !isHoliday(y, m, d)) {
           var dk = y + '-' + pad2(m) + '-' + pad2(d);
           var isAbs = !!absenceData[dk];
           if(d <= cutoff) {
@@ -2746,16 +2099,13 @@
       if (payrollRules.otInAdvance && payrollRules.otInSalary) {
         otToAdvance = otSumBefore;
         otToSalary = otSumAfter;
-      } else if (payrollRules.otInAdvance && !payrollRules.otInSalary) {
+      } else if (payrollRules.otInAdvance) {
         otToAdvance = otSumTotal;
-        otToSalary = 0;
-      } else if (!payrollRules.otInAdvance && payrollRules.otInSalary) {
-        otToAdvance = 0;
+      } else if (payrollRules.otInSalary) {
         otToSalary = otSumTotal;
       }
 
-      var aKey = y + '-' + m;
-      var mData = monthlyPayData[aKey] || {};
+      var mData = monthlyPayData[y + '-' + m] || {};
       var bonus = mData.bonus || 0;
       var stimul = mData.stimul || 0;
       var bonusInCurrentMonth = !!mData.bonusPayout;
@@ -2794,13 +2144,8 @@
       }
 
       if(badgeNdflEl) {
-        if(ndflEnabled) {
-          badgeNdflEl.className = 'pay-badge-ndfl';
-          badgeNdflEl.textContent = 'НДФЛ 13% учтен';
-        } else {
-          badgeNdflEl.className = 'pay-badge-ndfl off';
-          badgeNdflEl.textContent = 'Без вычета НДФЛ';
-        }
+        badgeNdflEl.className = ndflEnabled ? 'pay-badge-ndfl' : 'pay-badge-ndfl off';
+        badgeNdflEl.textContent = ndflEnabled ? 'НДФЛ 13% учтен' : 'Без вычета НДФЛ';
       }
 
       if(totalTaxEl) {
@@ -2882,8 +2227,9 @@
       if(pBeforeTitle) pBeforeTitle.textContent = '1-я половина (1–' + cutoff + ' число)';
       if(pAfterTitle) pAfterTitle.textContent = '2-я половина (' + (cutoff + 1) + '–' + totalDaysInMonth + ' число)';
 
-      if(pBeforeTag) pBeforeTag.textContent = ndflEnabled ? 'На руки' : 'До налога';
-      if(pAfterTag) pAfterTag.textContent = ndflEnabled ? 'На руки' : 'До налога';
+      var tagText = ndflEnabled ? 'На руки' : 'До налога';
+      if(pBeforeTag) pBeforeTag.textContent = tagText;
+      if(pAfterTag) pAfterTag.textContent = tagText;
 
       if(pBeforeSum) pBeforeSum.textContent = formatMoney(finalAdvance);
       if(pAfterSum) pAfterSum.textContent = formatMoney(finalSalary);
@@ -2961,55 +2307,17 @@
       if(l) l.textContent = MONTH_NAMES[selectedStatsMonth] + ' ' + selectedStatsYear;
     }
 
-    function toggleStatsMonthDropdown(){
-      haptic(8);
-      var tr = document.getElementById('stats-month-trigger'), dd = document.getElementById('stats-month-dropdown');
-      if(dd.classList.contains('open')){
-        closeStatsMonthDropdown();
-      } else {
-        buildStatsSelectors();
-        dd.classList.add('open');
-        tr.classList.add('open');
-        var s = dd.querySelector('.stats-month-option.selected');
-        if(s) setTimeout(function(){ s.scrollIntoView({block: 'nearest'}); }, 30);
-      }
-    }
-    function closeStatsMonthDropdown(){
-      var tr = document.getElementById('stats-month-trigger'), dd = document.getElementById('stats-month-dropdown');
-      if(tr) tr.classList.remove('open');
-      if(dd) dd.classList.remove('open');
-    }
-
     function buildYearChips(){
-      var yc = document.getElementById('stats-years-chips');
-      if(!yc) return;
-      var ym = {}, ks = Object.keys(overtimeData);
-      for(var i = 0; i < ks.length; i++){
-        var y = parseInt(ks[i].split('-')[0], 10);
-        if(!isNaN(y)) ym[y] = true;
-      }
-      ym[currentDate.getFullYear()] = true;
-      var years = Object.keys(ym).map(function(y){ return parseInt(y, 10); }).sort(function(a, b){ return b - a; });
-
-      yc.innerHTML = '';
-      years.forEach(function(y){
-        var chip = document.createElement('button');
-        chip.className = 'year-chip' + (y === selectedStatsYear ? ' active' : '');
-        chip.textContent = y;
-        chip.onclick = function(){ selectStatsYear(y); };
-        yc.appendChild(chip);
+      renderYearChips('stats-years-chips', selectedStatsYear, overtimeData, function(y){
+        if(selectedStatsYear === y) return;
+        haptic(10);
+        selectedStatsYear = y;
+        selectedStatsMonth = (y === currentDate.getFullYear()) ? currentDate.getMonth() : 11;
+        buildYearChips();
+        buildStatsSelectors();
+        updateStatsMonthTriggerLabel();
+        renderStatsDailyTable();
       });
-    }
-
-    function selectStatsYear(y){
-      if(selectedStatsYear === y) return;
-      haptic(10);
-      selectedStatsYear = y;
-      selectedStatsMonth = (y === currentDate.getFullYear()) ? currentDate.getMonth() : 11;
-      buildYearChips();
-      buildStatsSelectors();
-      updateStatsMonthTriggerLabel();
-      renderStatsDailyTable();
     }
 
     function openStatsPage(){
@@ -3025,51 +2333,16 @@
     }
     function closeStatsPage(){
       document.getElementById('stats-page').classList.remove('open');
-      closeStatsMonthDropdown();
+      closeGenericDropdown('stats');
     }
 
     function buildStatsSelectors(){
-      var mm = {};
-      for(var m = 1; m <= 12; m++){
-        mm[m] = {year: selectedStatsYear, month: m, hours: 0};
-      }
-      var ks = Object.keys(overtimeData);
-      for(var i = 0; i < ks.length; i++){
-        var p = ks[i].split('-'), y = parseInt(p[0], 10), m = parseInt(p[1], 10);
-        if(y === selectedStatsYear && mm[m]){
-          var h = overtimeData[ks[i]] || 0;
-          if(h > 0) mm[m].hours += h;
-        }
-      }
-      var c = document.getElementById('stats-month-dropdown-options');
-      if(!c) return;
-      c.innerHTML = '';
-      for(var m = 12; m >= 1; m--){
-        (function(d){
-          var o = document.createElement('div');
-          o.className = 'stats-month-option';
-          o.dataset.year = d.year;
-          o.dataset.month = d.month - 1;
-          if(d.year === selectedStatsYear && (d.month - 1) === selectedStatsMonth) o.classList.add('selected');
-          var ns = document.createElement('span');
-          ns.textContent = MONTH_NAMES[d.month - 1];
-          o.appendChild(ns);
-          if(d.hours > 0){
-            var hs = document.createElement('span');
-            hs.className = 'stats-month-option-hours';
-            hs.textContent = d.hours.toFixed(1) + ' ч';
-            o.appendChild(hs);
-          }
-          o.onclick = function(){
-            haptic(10);
-            selectedStatsMonth = d.month - 1;
-            updateStatsMonthTriggerLabel();
-            closeStatsMonthDropdown();
-            renderStatsDailyTable();
-          };
-          c.appendChild(o);
-        })(mm[m]);
-      }
+      renderMonthOptions('stats-month-dropdown-options', selectedStatsYear, selectedStatsMonth, overtimeData, function(mIdx){
+        selectedStatsMonth = mIdx;
+        updateStatsMonthTriggerLabel();
+        closeGenericDropdown('stats');
+        renderStatsDailyTable();
+      });
     }
 
     function renderStatsDailyTable(){
@@ -3148,9 +2421,7 @@
 
       var overlay = document.createElement('div');
       overlay.className = 'sheet-overlay';
-      overlay.onclick = function(e) {
-        if (e.target === overlay) closeBottomSheet();
-      };
+      overlay.onclick = function(e) { if (e.target === overlay) closeBottomSheet(); };
 
       var sheet = document.createElement('div');
       sheet.className = 'bottom-sheet';
@@ -3167,7 +2438,7 @@
       var closeBtn = document.createElement('button');
       closeBtn.className = 'sheet-close-btn';
       closeBtn.innerHTML = '✕';
-      closeBtn.onclick = function() { closeBottomSheet(); };
+      closeBtn.onclick = closeBottomSheet;
       header.appendChild(title);
       header.appendChild(closeBtn);
       sheet.appendChild(header);
@@ -3225,11 +2496,8 @@
       abBtn.onclick = function(e) {
         e.stopPropagation();
         haptic(15);
-        if(isAlreadyAbsent) {
-          delete absenceData[dk];
-        } else {
-          absenceData[dk] = { reason: 'Отсутствие' };
-        }
+        if(isAlreadyAbsent) delete absenceData[dk];
+        else absenceData[dk] = { reason: 'Отсутствие' };
         saveAbsence();
         closeBottomSheet();
         renderCalendar(currentDate);
@@ -3271,26 +2539,18 @@
       activeSheetOverlay = overlay;
 
       var sheetStartY = 0;
-      sheet.addEventListener('touchstart', function(e) {
-        sheetStartY = e.touches[0].clientY;
-      }, {passive: true});
+      sheet.addEventListener('touchstart', function(e) { sheetStartY = e.touches[0].clientY; }, {passive: true});
       sheet.addEventListener('touchend', function(e) {
-        var dy = e.changedTouches[0].clientY - sheetStartY;
-        if (dy > 60) closeBottomSheet();
+        if (e.changedTouches[0].clientY - sheetStartY > 60) closeBottomSheet();
       }, {passive: true});
 
-      requestAnimationFrame(function() {
-        overlay.classList.add('active');
-      });
+      requestAnimationFrame(function() { overlay.classList.add('active'); });
       lockBodyScroll();
     }
 
     function showCommentEditor(sheet, dk, ce) {
-      var ch = Array.prototype.slice.call(sheet.children);
-      ch.forEach(function(c) {
-        if (!c.classList.contains('sheet-handle') && !c.classList.contains('sheet-header')) {
-          c.style.display = 'none';
-        }
+      Array.from(sheet.children).forEach(function(c) {
+        if (!c.classList.contains('sheet-handle') && !c.classList.contains('sheet-header')) c.style.display = 'none';
       });
       var s = document.createElement('div');
       s.className = 'comment-section visible';
@@ -3336,8 +2596,8 @@
 
     function setHoursValue(dk, ce, h){
       haptic(15);
-      if(h > 0){ overtimeData[dk] = h; }
-      else { delete overtimeData[dk]; }
+      if(h > 0) overtimeData[dk] = h;
+      else delete overtimeData[dk];
       saveToStorage();
       renderCalendar(currentDate);
       updateTotal();
@@ -3345,28 +2605,48 @@
     }
 
     var editingCell = null, editingKey = null;
+    var sharedHoursInput = document.createElement('input');
+    sharedHoursInput.type = 'number';
+    sharedHoursInput.className = 'cell-hours-input';
+    sharedHoursInput.min = '0';
+    sharedHoursInput.step = '0.5';
+    sharedHoursInput.placeholder = 'ч';
+    sharedHoursInput.onclick = function(e){ e.stopPropagation(); };
+    sharedHoursInput.onkeydown = function(e){
+      if(e.key === 'Enter'){ e.preventDefault(); saveInlineEdit(); }
+      else if(e.key === 'Escape'){ e.preventDefault(); cancelInlineEdit(); }
+    };
+    sharedHoursInput.onblur = function(){
+      if(editingCell) saveInlineEdit();
+    };
+
     function startInlineEdit(dk, ce){
       if(editingCell && editingCell !== ce) saveInlineEdit();
       editingCell = ce;
       editingKey = dk;
       ce.classList.add('editing');
-      var ip = ce.querySelector('.cell-hours-input');
-      if(ip){ ip.value = overtimeData[dk] || ''; ip.focus(); ip.select(); }
+      sharedHoursInput.value = overtimeData[dk] || '';
+      ce.appendChild(sharedHoursInput);
+      sharedHoursInput.focus();
+      sharedHoursInput.select();
+    }
+
+    function cancelInlineEdit(){
+      if(!editingCell) return;
+      if(sharedHoursInput.parentNode) sharedHoursInput.parentNode.removeChild(sharedHoursInput);
+      editingCell.classList.remove('editing');
+      editingCell = null;
+      editingKey = null;
     }
 
     function saveInlineEdit(){
       if(!editingCell || !editingKey) return;
       haptic(12);
-      var ip = editingCell.querySelector('.cell-hours-input');
-      if(ip){
-        var v = parseFloat(ip.value.replace(',', '.'));
-        if(!isNaN(v) && v > 0){ overtimeData[editingKey] = v; }
-        else { delete overtimeData[editingKey]; }
-        saveToStorage();
-      }
-      editingCell.classList.remove('editing');
-      editingCell = null;
-      editingKey = null;
+      var v = parseFloat(sharedHoursInput.value.replace(',', '.'));
+      if(!isNaN(v) && v > 0) overtimeData[editingKey] = v;
+      else delete overtimeData[editingKey];
+      saveToStorage();
+      cancelInlineEdit();
       renderCalendar(currentDate);
       updateTotal();
       renderPayCalculations();
@@ -3404,9 +2684,7 @@
           if(dk === tk) cl.classList.add('today');
 
           var isAbs = !!absenceData[dk];
-          if(isAbs) {
-            cl.classList.add('absent');
-          }
+          if(isAbs) cl.classList.add('absent');
 
           var oh = overtimeData[dk];
           if(oh && oh > 0){
@@ -3423,25 +2701,8 @@
           cl.appendChild(ns);
           var hs = document.createElement('span');
           hs.className = 'day-hours';
-          if(isAbs) {
-            hs.textContent = 'Пропуск';
-          } else {
-            hs.textContent = oh ? oh + ' ч' : '';
-          }
+          hs.textContent = isAbs ? 'Пропуск' : (oh ? oh + ' ч' : '');
           cl.appendChild(hs);
-          var ip = document.createElement('input');
-          ip.type = 'number';
-          ip.className = 'cell-hours-input';
-          ip.min = '0';
-          ip.step = '0.5';
-          ip.placeholder = 'ч';
-          ip.onclick = function(e){ e.stopPropagation(); };
-          ip.onkeydown = function(e){
-            if(e.key === 'Enter'){ e.preventDefault(); saveInlineEdit(); }
-            else if(e.key === 'Escape'){ e.preventDefault(); cl.classList.remove('editing'); editingCell = null; editingKey = null; }
-          };
-          ip.onblur = function(){ if(editingCell === cl) saveInlineEdit(); };
-          cl.appendChild(ip);
           var ltt = 0;
           cl.onclick = function(e){
             e.stopPropagation();
@@ -3549,12 +2810,6 @@
       sidebarSwipeStartY = e.touches[0].clientY;
       sidebarSwipeActive = true;
     }, {passive: true});
-    sidebarEl.addEventListener('touchmove', function(e){
-      if(!sidebarSwipeActive) return;
-      var dx = e.touches[0].clientX - sidebarSwipeStartX;
-      var dy = Math.abs(e.touches[0].clientY - sidebarSwipeStartY);
-      if(Math.abs(dx) > 15 && Math.abs(dx) > dy){ sidebarSwipeActive = true; }
-    }, {passive: true});
     sidebarEl.addEventListener('touchend', function(e){
       if(!sidebarSwipeActive) return;
       sidebarSwipeActive = false;
@@ -3577,7 +2832,7 @@
     });
 
     function saveSalary(){
-      var ip = document.getElementById('salary-input'), cv = ip.value.replace(/\s+/g, '').replace(',', '.'), v = parseFloat(cv);
+      var ip = document.getElementById('salary-input'), v = parseFloat(ip.value.replace(/\s+/g, '').replace(',', '.'));
       if(!isNaN(v) && v > 0){
         haptic(15);
         SALARY = v;
@@ -3633,16 +2888,8 @@
       if(calcMode !== 'manual') return;
       var y = currentDate.getFullYear(), m = currentDate.getMonth() + 1;
       accOt15 = 0; accOt2 = 0;
-      if(storageAvailable){
-        try {
-          var r = localStorage.getItem('overtime_manual_' + y + '_' + m);
-          if(r){
-            var d = JSON.parse(r);
-            accOt15 = d.ot15 || 0;
-            accOt2 = d.ot2 || 0;
-          }
-        } catch(e){}
-      }
+      var d = readJson('overtime_manual_' + y + '_' + m, null);
+      if(d){ accOt15 = d.ot15 || 0; accOt2 = d.ot2 || 0; }
     }
 
     function calculatePay(){
@@ -3667,20 +2914,23 @@
       document.getElementById('ndfl-gross').textContent = formatMoney(gt);
       document.getElementById('ndfl-tax').textContent = formatMoney(tx);
       document.getElementById('ndfl-net').textContent = formatMoney(nt);
-      var fp = ndflEnabled ? nt : gt;
-      document.getElementById('total-pay').textContent = formatMoney(fp);
+      document.getElementById('total-pay').textContent = formatMoney(ndflEnabled ? nt : gt);
       document.getElementById('pay-label').textContent = ndflEnabled ? 'Итого на руки (с НДФЛ)' : 'Итого к выплате';
     }
 
     function updateTotal(){
-      var y = currentDate.getFullYear(), m = currentDate.getMonth() + 1, th = 0, ks = Object.keys(overtimeData);
-      for(var i = 0; i < ks.length; i++){
-        var p = ks[i].split('-');
-        if(parseInt(p[0], 10) === y && parseInt(p[1], 10) === m) th += overtimeData[ks[i]] || 0;
+      var th = 0;
+      if(calcMode === 'auto'){
+        th = calculateOtFromCalendar();
+      } else {
+        restoreInputsForMonth();
+        var y = currentDate.getFullYear(), m = currentDate.getMonth() + 1, ks = Object.keys(overtimeData);
+        for(var i = 0; i < ks.length; i++){
+          var p = ks[i].split('-');
+          if(parseInt(p[0], 10) === y && parseInt(p[1], 10) === m) th += overtimeData[ks[i]] || 0;
+        }
       }
       document.getElementById('total-overtime').textContent = th.toFixed(1) + ' ч';
-      if(calcMode === 'auto'){ calculateOtFromCalendar(); }
-      else { restoreInputsForMonth(); }
       calculatePay();
       renderPayCalculations();
     }
@@ -3704,12 +2954,13 @@
     }
 
     function calculateOtFromCalendar(){
-      var y = currentDate.getFullYear(), m = currentDate.getMonth() + 1, a15 = 0, a2 = 0, ks = Object.keys(overtimeData);
+      var y = currentDate.getFullYear(), m = currentDate.getMonth() + 1, a15 = 0, a2 = 0, totalH = 0, ks = Object.keys(overtimeData);
       for(var i = 0; i < ks.length; i++){
         var p = ks[i].split('-'), yy = parseInt(p[0], 10), mm = parseInt(p[1], 10), dd = parseInt(p[2], 10);
         if(yy === y && mm === m){
           var h = overtimeData[ks[i]];
           if(!h || h <= 0) continue;
+          totalH += h;
           var dO = new Date(yy, mm - 1, dd), dw = dO.getDay(), woh = (dw === 0 || dw === 6) || isHoliday(yy, mm, dd);
           if(woh){ a2 += h; }
           else {
@@ -3720,6 +2971,7 @@
       }
       accOt15 = a15;
       accOt2 = a2;
+      return totalH;
     }
 
     function openSidebar(){
@@ -3819,10 +3071,7 @@
         var tr = document.getElementById(prefix + '-month-trigger');
         var dd = document.getElementById(prefix + '-month-dropdown');
         if(tr && dd && dd.classList.contains('open')) {
-          if(!tr.contains(e.target) && !dd.contains(e.target)) {
-            tr.classList.remove('open');
-            dd.classList.remove('open');
-          }
+          if(!tr.contains(e.target) && !dd.contains(e.target)) closeGenericDropdown(prefix);
         }
       });
     });
@@ -3837,14 +3086,10 @@
         closeStatsPage();
         closePayPage();
         closeAbsencePage();
-        closeStatsMonthDropdown();
-        closePayMonthDropdown();
-        closeAbsenceMonthDropdown();
-        if(editingCell){
-          editingCell.classList.remove('editing');
-          editingCell = null;
-          editingKey = null;
-        }
+        closeGenericDropdown('stats');
+        closeGenericDropdown('pay');
+        closeGenericDropdown('absence');
+        if(editingCell) cancelInlineEdit();
       }
     });
 
