@@ -255,12 +255,49 @@
     }
     .header-row { margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
     .header-left { display: flex; align-items: center; gap: 12px; }
+    .header-right { display: flex; align-items: center; gap: 8px; }
     h1 { text-shadow: var(--title-shadow); margin: 0; font-size: 1.35rem; }
     .icon-btn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.1); color: var(--text); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.2s, border-color 0.2s; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); line-height: 1; padding: 0; flex-shrink: 0; }
     .icon-btn:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); }
     .icon-btn:active { transform: scale(0.95); }
     [data-theme="light"] .icon-btn { border-color: rgba(30,41,59,0.15); background: rgba(255,255,255,0.5); }
     [data-theme="light"] .icon-btn:hover { background: rgba(255,255,255,0.8); }
+
+    .network-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    }
+    .network-status.online {
+      background: rgba(34, 197, 94, 0.12);
+      color: var(--success);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    .network-status.offline {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      animation: offlinePulse 2s infinite ease-in-out;
+    }
+    .network-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+    @keyframes offlinePulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.55; transform: scale(0.9); }
+    }
 
     .icon-chevron { display: block; flex-shrink: 0; transition: transform 0.25s ease; pointer-events: none; }
     .icon-chevron.left { transform: rotate(90deg); }
@@ -697,6 +734,8 @@
     @media (max-width: 480px) {
       body { padding: 14px; padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); padding-top: max(14px, env(safe-area-inset-top)); padding-bottom: max(14px, env(safe-area-inset-bottom)); }
       .calendar-wrapper { padding: 16px; border-radius: 16px; }
+      .network-status { padding: 6px 8px; }
+      .network-status .network-text { display: none; }
       .summary-card .summary-label { font-size: 0.68rem; }
       .summary-card .summary-value { font-size: 0.92rem; }
       .rate-badge { font-size: 0.72rem; padding: 2px 8px; }
@@ -1259,7 +1298,13 @@
         <button class="icon-btn" onclick="openSidebar()" aria-label="Открыть меню" title="Открыть меню">☰</button>
         <h1>Календарь переработок</h1>
       </div>
-      <button class="icon-btn" id="theme-toggle-btn" onclick="toggleTheme()" aria-label="Сменить тему" title="Сменить тему">🌙</button>
+      <div class="header-right">
+        <div class="network-status online" id="network-status" role="status" aria-live="polite">
+          <span class="network-dot"></span>
+          <span class="network-text" id="network-text">В сети</span>
+        </div>
+        <button class="icon-btn" id="theme-toggle-btn" onclick="toggleTheme()" aria-label="Сменить тему" title="Сменить тему">🌙</button>
+      </div>
     </div>
     <div class="calendar-wrapper" id="calendar-wrapper">
       <div class="calendar-header">
@@ -3084,6 +3129,38 @@
     setCalcMode(calcMode);
     renderCalendar(currentDate);
     updateTotal();
+
+    // Отслеживание онлайн / офлайн статуса сети
+    function updateNetworkStatus() {
+      var badge = document.getElementById('network-status');
+      var text = document.getElementById('network-text');
+      if (!badge || !text) return;
+      if (navigator.onLine) {
+        badge.className = 'network-status online';
+        badge.title = 'Подключение активно';
+        text.textContent = 'В сети';
+      } else {
+        badge.className = 'network-status offline';
+        badge.title = 'Автономный режим (офлайн)';
+        text.textContent = 'Офлайн';
+      }
+    }
+    window.addEventListener('online', updateNetworkStatus);
+    window.addEventListener('offline', updateNetworkStatus);
+    updateNetworkStatus();
+
+    // Регистрация Service Worker для оффлайн-работы PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('./sw.js')
+          .then(function(reg) {
+            console.log('SW активен, scope:', reg.scope);
+          })
+          .catch(function(err) {
+            console.warn('Ошибка регистрации SW:', err);
+          });
+      });
+    }
   </script>
 </body>
 </html>
